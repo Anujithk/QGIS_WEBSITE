@@ -120,12 +120,15 @@ export default function Footer() {
         <div className="footer-bottom">
           <div>
             © {new Date().getFullYear()} Government of Kerala LSGD Informational Directory. Designed in accordance with National Portal of India standards.
+            <div style={{ marginTop: '0.35rem', fontSize: '0.8rem', color: 'var(--grey-400)' }}>
+              Portal Engineering & Spatial Systems by <strong>Anujith K</strong> · Direct Dev Mail: <a href="mailto:developer.anujithk@gmail.com" style={{ textDecoration: 'underline', color: 'var(--white)' }}>developer.anujithk@gmail.com</a>
+            </div>
           </div>
           <div className="footer-bottom-links">
             <Link to="/about#privacy">Privacy Policy</Link>
             <Link to="/about#terms">Terms of Access</Link>
             <Link to="/about#disclaimer">Full Disclaimer</Link>
-            <Link to="/contact">Feedback</Link>
+            <Link to="/contact">Developer & Support Desk</Link>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
   MapPin,
@@ -17,9 +17,11 @@ import {
   AlertCircle,
   Landmark,
 } from 'lucide-react';
-import MapView from '../components/MapView';
 import { PANCHAYATS } from '../data/panchayats';
 import NotFound from './NotFound';
+
+// Lazy-load Leaflet map so critical administrative details load sub-300ms on 3G/4G
+const MapView = lazy(() => import('../components/MapView'));
 
 export default function PanchayatDetails() {
   const { id } = useParams();
@@ -126,7 +128,40 @@ export default function PanchayatDetails() {
               <div style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
                 {panchayat.locationDescription}
               </div>
-              <MapView panchayat={panchayat} />
+              <Suspense
+                fallback={
+                  <div
+                    style={{
+                      height: '380px',
+                      backgroundColor: 'var(--grey-100)',
+                      borderRadius: 'var(--radius-xs)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '0.75rem',
+                      border: '1px dashed var(--grey-300)',
+                      color: 'var(--grey-600)',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '28px',
+                        height: '28px',
+                        border: '2px solid var(--grey-300)',
+                        borderTopColor: 'var(--grey-900)',
+                        borderRadius: '50%',
+                        animation: 'spin-fast 0.6s linear infinite',
+                      }}
+                    />
+                    <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>
+                      Loading GIS Map Coordinates...
+                    </span>
+                  </div>
+                }
+              >
+                <MapView panchayat={panchayat} />
+              </Suspense>
             </div>
           </div>
 

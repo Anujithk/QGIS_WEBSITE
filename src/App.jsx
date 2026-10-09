@@ -4,9 +4,6 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import AppRoutes from './routes/AppRoutes';
 
-import './styles/global.css';
-import './styles/components.css';
-import './styles/pages.css';
 
 // Automatically scroll window to top upon route navigation
 function ScrollToTop() {
