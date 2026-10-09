@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Menu, X, Landmark, Compass, Info, Mail } from 'lucide-react';
+import { Menu, X, ArrowRight } from 'lucide-react';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -13,25 +13,37 @@ export default function Header() {
 
   return (
     <>
-      {/* Official Government Utility Bar */}
+      {/* Official Government Utility Top Bar */}
       <div className="gov-flag-bar">
         <div className="gov-flag-inner">
-          <span>Government of Kerala · Local Self Government Department (LSGD)</span>
-          <span>Official Public Information Directory</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+            <span style={{ fontWeight: 700 }}>കേരള സർക്കാർ</span>
+            <span style={{ opacity: 0.5 }}>|</span>
+            <span>GOVERNMENT OF KERALA · LOCAL SELF GOVERNMENT DEPARTMENT</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', fontSize: '0.725rem' }}>
+            <span>LSGD CITIZEN PORTAL</span>
+            <span style={{ opacity: 0.5 }}>|</span>
+            <a href="https://lsgkerala.gov.in" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>
+              Official State LSGD Website
+            </a>
+          </div>
         </div>
       </div>
 
       <header className="site-header">
         <div className="container header-container">
-          {/* Logo / Emblem */}
+          {/* Logo & Official Emblem */}
           <Link to="/" className="brand-link" aria-label="Kerala Panchayat Directory Home">
-            <div className="brand-emblem">
-              <span>LSGD</span>
-              <span className="brand-emblem-kerala">KERALA</span>
-            </div>
+            <img
+              src="/kerala-gov-logo.png"
+              alt="Government of Kerala Official State Emblem"
+              className="brand-logo-img"
+            />
             <div className="brand-text">
+              <span className="brand-malayalam">കേരള ഗ്രാമപഞ്ചായത്ത് ഡയറക്ടറി</span>
               <span className="brand-title">Kerala Panchayat Directory</span>
-              <span className="brand-subtitle">Grama Panchayat Information Portal</span>
+              <span className="brand-subtitle">Information & Administrative Portal · LSGD Kerala</span>
             </div>
           </Link>
 
@@ -63,7 +75,8 @@ export default function Header() {
               Contact
             </NavLink>
             <Link to="/panchayats" className="btn btn-primary btn-sm" style={{ marginLeft: '0.5rem' }}>
-              Explore Directory
+              <span>Search Directory</span>
+              <ArrowRight size={13} />
             </Link>
           </nav>
 
@@ -96,7 +109,7 @@ export default function Header() {
                 to="/panchayats"
                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
               >
-                Panchayats Directory
+                Grama Panchayats Directory
               </NavLink>
             </li>
             <li>
@@ -104,7 +117,7 @@ export default function Header() {
                 to="/about"
                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
               >
-                About Kerala Government
+                About Kerala LSGD
               </NavLink>
             </li>
             <li>
@@ -112,7 +125,7 @@ export default function Header() {
                 to="/contact"
                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
               >
-                Contact & LSGD Helpline
+                Helpdesk & Contact
               </NavLink>
             </li>
           </ul>

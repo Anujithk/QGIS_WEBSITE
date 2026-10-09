@@ -1,14 +1,15 @@
 /* ==========================================================================
    Kerala Grama Panchayat Directory - Components Stylesheet
-   Strict Black & White Aesthetic, Thin Borders, Subtle Shadows
+   Professional Government Aesthetic: Monochrome & Rich Shades Palette
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
    Header & Navigation
    -------------------------------------------------------------------------- */
 .site-header {
-  background-color: var(--color-white);
-  border-bottom: 2px solid var(--color-black);
+  background-color: var(--white);
+  border-bottom: 2px solid var(--shade-900);
+  box-shadow: var(--shadow-xs);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -24,34 +25,16 @@
 .brand-link {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
+  gap: 1rem;
   text-decoration: none;
-  color: var(--color-black);
+  color: var(--shade-950);
 }
 
-.brand-emblem {
-  width: 44px;
-  height: 44px;
-  border: 2px solid var(--color-black);
-  background-color: var(--color-black);
-  color: var(--color-white);
-  border-radius: var(--radius-sm);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 0.75rem;
-  line-height: 1;
-  letter-spacing: 0.05em;
+.brand-logo-img {
+  height: 54px;
+  width: auto;
+  object-fit: contain;
   flex-shrink: 0;
-}
-
-.brand-emblem-kerala {
-  font-size: 0.55rem;
-  opacity: 0.8;
-  letter-spacing: 0.1em;
-  margin-top: 2px;
 }
 
 .brand-text {
@@ -59,17 +42,25 @@
   flex-direction: column;
 }
 
+.brand-malayalam {
+  font-size: 0.725rem;
+  color: var(--shade-600);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+}
+
 .brand-title {
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   font-weight: 800;
   letter-spacing: -0.02em;
-  color: var(--color-black);
+  color: var(--shade-950);
   line-height: 1.2;
 }
 
 .brand-subtitle {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
+  font-size: 0.725rem;
+  color: var(--shade-500);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -78,62 +69,46 @@
 .nav-desktop {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.35rem;
 }
 
 .nav-link {
   padding: 0.5rem 0.95rem;
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--color-gray-700);
-  border-radius: var(--radius-sm);
+  color: var(--shade-700);
+  border-radius: var(--radius-xs);
   border: 1px solid transparent;
   transition: all 0.15s ease;
 }
 
 .nav-link:hover {
-  color: var(--color-black);
-  background-color: var(--color-gray-100);
+  color: var(--shade-950);
+  background-color: var(--shade-100);
 }
 
 .nav-link.active {
-  color: var(--color-black);
-  background-color: var(--color-gray-100);
-  border-color: var(--border-medium);
-}
-
-.nav-link-cta {
-  background-color: var(--color-black);
-  color: var(--color-white);
-  border: 1px solid var(--color-black);
-  padding: 0.45rem 1rem;
-}
-
-.nav-link-cta:hover {
-  background-color: var(--color-gray-800);
-  color: var(--color-white);
-}
-
-.nav-link-cta.active {
-  background-color: var(--color-black);
-  color: var(--color-white);
+  color: var(--shade-950);
+  background-color: var(--shade-100);
+  border-color: var(--shade-300);
 }
 
 .mobile-menu-btn {
   display: none;
   padding: 0.5rem;
-  color: var(--color-black);
-  border: 1px solid var(--border-medium);
-  border-radius: var(--radius-sm);
-  background-color: var(--color-white);
+  color: var(--shade-900);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-xs);
+  background-color: var(--white);
 }
 
 /* Mobile Nav Drawer */
 .mobile-nav-panel {
   display: none;
-  background-color: var(--color-white);
-  border-bottom: 2px solid var(--color-black);
+  background-color: var(--white);
+  border-bottom: 2px solid var(--shade-900);
   padding: 1rem 1.5rem;
+  box-shadow: var(--shadow-md);
 }
 
 .mobile-nav-panel.open {
@@ -150,11 +125,12 @@
 .mobile-nav-list .nav-link {
   display: block;
   padding: 0.75rem 1rem;
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--shade-50);
 }
 
 /* --------------------------------------------------------------------------
-   Search Bar & Suggestions
+   Search Bar & Autocomplete Suggestions
    -------------------------------------------------------------------------- */
 .search-bar-wrapper {
   position: relative;
@@ -165,21 +141,22 @@
   position: relative;
   display: flex;
   align-items: center;
-  background-color: var(--color-white);
-  border: 2px solid var(--color-black);
+  background-color: var(--white);
+  border: 2px solid var(--shade-900);
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow-sm);
-  transition: box-shadow 0.15s ease;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
 .search-input-group:focus-within {
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 0 3px rgba(24, 24, 27, 0.18);
+  border-color: var(--shade-950);
 }
 
 .search-icon-left {
   position: absolute;
-  left: 1rem;
-  color: var(--color-gray-500);
+  left: 1.15rem;
+  color: var(--shade-500);
   pointer-events: none;
   display: flex;
   align-items: center;
@@ -187,17 +164,17 @@
 
 .search-input {
   width: 100%;
-  padding: 0.95rem 7.5rem 0.95rem 3.1rem;
+  padding: 1rem 8.5rem 1rem 3.25rem;
   font-size: 1rem;
   font-family: inherit;
-  color: var(--color-black);
+  color: var(--shade-950);
   background: transparent;
   border: none;
   outline: none;
 }
 
 .search-input::placeholder {
-  color: var(--color-gray-500);
+  color: var(--shade-500);
   font-size: 0.95rem;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -206,7 +183,7 @@
 
 .search-actions-right {
   position: absolute;
-  right: 0.75rem;
+  right: 0.65rem;
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -219,49 +196,49 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  color: var(--color-gray-600);
-  background-color: var(--color-gray-100);
-  border: 1px solid var(--border-light);
+  color: var(--shade-600);
+  background-color: var(--shade-100);
+  border: 1px solid var(--border-default);
   transition: all 0.15s ease;
 }
 
 .search-clear-btn:hover {
-  background-color: var(--color-gray-200);
-  color: var(--color-black);
+  background-color: var(--shade-200);
+  color: var(--shade-950);
 }
 
 .search-submit-btn {
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  background-color: var(--color-black);
-  color: var(--color-white);
+  background-color: var(--shade-900);
+  color: var(--white);
   padding: 0.55rem 0.95rem;
   font-size: 0.85rem;
   font-weight: 600;
   border-radius: var(--radius-xs);
-  border: 1px solid var(--color-black);
+  border: 1px solid var(--shade-900);
   transition: background-color 0.15s ease;
 }
 
 .search-submit-btn:hover {
-  background-color: var(--color-gray-800);
+  background-color: var(--shade-950);
 }
 
-/* Suggestions Dropdown */
+/* Autocomplete Suggestions Dropdown */
 .search-suggestions-dropdown {
   position: absolute;
   top: calc(100% + 6px);
   left: 0;
   right: 0;
-  background-color: var(--color-white);
-  border: 2px solid var(--color-black);
+  background-color: var(--white);
+  border: 2px solid var(--shade-900);
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow-lg);
-  max-height: 380px;
+  max-height: 400px;
   overflow-y: auto;
   z-index: 500;
-  padding: 0.5rem 0;
+  padding: 0.4rem 0;
 }
 
 .suggestions-header {
@@ -270,9 +247,9 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--color-gray-600);
-  border-bottom: 1px solid var(--border-light);
-  background-color: var(--color-gray-50);
+  color: var(--shade-600);
+  border-bottom: 1px solid var(--border-subtle);
+  background-color: var(--shade-50);
   display: flex;
   justify-content: space-between;
 }
@@ -281,10 +258,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 1.15rem;
   text-decoration: none;
-  color: var(--color-black);
-  border-bottom: 1px solid var(--border-light);
+  color: var(--shade-950);
+  border-bottom: 1px solid var(--border-subtle);
   transition: background-color 0.12s ease;
 }
 
@@ -294,7 +271,7 @@
 
 .suggestion-item:hover,
 .suggestion-item.active {
-  background-color: var(--color-gray-100);
+  background-color: var(--shade-100);
 }
 
 .suggestion-info {
@@ -304,26 +281,27 @@
 }
 
 .suggestion-name {
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.95rem;
-  color: var(--color-black);
+  color: var(--shade-950);
 }
 
 .suggestion-details {
   font-size: 0.8rem;
-  color: var(--text-secondary);
+  color: var(--shade-600);
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.45rem;
 }
 
 .suggestion-badge {
   font-size: 0.7rem;
-  padding: 0.15rem 0.45rem;
-  background-color: var(--color-gray-100);
-  border: 1px solid var(--border-medium);
+  padding: 0.15rem 0.5rem;
+  background-color: var(--shade-100);
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-xs);
   font-weight: 600;
+  color: var(--shade-900);
 }
 
 .suggestion-view-all {
@@ -331,17 +309,17 @@
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  padding: 0.75rem 1rem;
+  padding: 0.8rem 1rem;
   font-size: 0.85rem;
   font-weight: 600;
-  background-color: var(--color-gray-50);
-  color: var(--color-black);
-  border-top: 1px solid var(--border-medium);
+  background-color: var(--shade-50);
+  color: var(--shade-950);
+  border-top: 1px solid var(--border-default);
   text-decoration: none;
 }
 
 .suggestion-view-all:hover {
-  background-color: var(--color-gray-100);
+  background-color: var(--shade-100);
   text-decoration: underline;
 }
 
@@ -349,20 +327,22 @@
    Panchayat Card
    -------------------------------------------------------------------------- */
 .panchayat-card {
-  background-color: var(--color-white);
-  border: 1px solid var(--border-medium);
+  background-color: var(--white);
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-sm);
-  padding: 1.35rem;
+  padding: 1.4rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
   position: relative;
+  box-shadow: var(--shadow-xs);
 }
 
 .panchayat-card:hover {
-  border-color: var(--color-black);
-  box-shadow: var(--shadow-sm);
+  border-color: var(--shade-900);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
 .panchayat-card-header {
@@ -382,36 +362,37 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  background-color: var(--color-gray-100);
-  border: 1px solid var(--border-medium);
-  padding: 0.2rem 0.5rem;
+  background-color: var(--shade-100);
+  border: 1px solid var(--border-default);
+  padding: 0.2rem 0.55rem;
   border-radius: var(--radius-xs);
-  color: var(--color-black);
+  color: var(--shade-900);
 }
 
 .category-tag {
   font-size: 0.7rem;
-  color: var(--color-gray-600);
-  border: 1px dashed var(--border-medium);
-  padding: 0.15rem 0.45rem;
+  color: var(--shade-600);
+  background-color: var(--shade-50);
+  border: 1px solid var(--border-default);
+  padding: 0.15rem 0.5rem;
   border-radius: var(--radius-xs);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 140px;
+  max-width: 150px;
 }
 
 .panchayat-card-title {
   font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--color-black);
+  font-weight: 750;
+  color: var(--shade-950);
   line-height: 1.3;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.2rem;
 }
 
 .panchayat-card-malayalam {
   font-size: 0.825rem;
-  color: var(--color-gray-600);
+  color: var(--shade-600);
   font-weight: 500;
 }
 
@@ -427,18 +408,18 @@
   display: flex;
   align-items: flex-start;
   gap: 0.6rem;
-  color: var(--color-gray-700);
-  line-height: 1.4;
+  color: var(--shade-700);
+  line-height: 1.45;
 }
 
 .card-info-item svg {
   flex-shrink: 0;
   margin-top: 0.15rem;
-  color: var(--color-black);
+  color: var(--shade-900);
 }
 
 .panchayat-card-footer {
-  border-top: 1px solid var(--border-light);
+  border-top: 1px solid var(--border-subtle);
   padding-top: 0.95rem;
   display: flex;
   align-items: center;
@@ -446,8 +427,8 @@
 }
 
 .card-badge-small {
-  font-size: 0.725rem;
-  color: var(--color-gray-600);
+  font-size: 0.75rem;
+  color: var(--shade-600);
 }
 
 .panchayat-card-btn {
@@ -456,101 +437,105 @@
   gap: 0.4rem;
   font-size: 0.825rem;
   font-weight: 700;
-  color: var(--color-black);
+  color: var(--shade-900);
   text-decoration: none;
-  padding: 0.4rem 0.75rem;
-  border: 1px solid var(--color-black);
+  padding: 0.45rem 0.85rem;
+  border: 1px solid var(--shade-900);
   border-radius: var(--radius-xs);
-  background-color: var(--color-white);
+  background-color: var(--white);
   transition: all 0.15s ease;
 }
 
 .panchayat-card-btn:hover {
-  background-color: var(--color-black);
-  color: var(--color-white);
+  background-color: var(--shade-900);
+  color: var(--white);
 }
 
 /* --------------------------------------------------------------------------
    District Card
    -------------------------------------------------------------------------- */
 .district-card {
-  background-color: var(--color-white);
-  border: 1px solid var(--border-medium);
+  background-color: var(--white);
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-sm);
-  padding: 1.15rem;
+  padding: 1.2rem;
   text-decoration: none;
-  color: var(--color-black);
+  color: var(--shade-950);
   display: flex;
   align-items: center;
   justify-content: space-between;
   transition: all 0.15s ease;
+  box-shadow: var(--shadow-xs);
 }
 
 .district-card:hover {
-  border-color: var(--color-black);
-  background-color: var(--color-gray-50);
-  transform: translateY(-1px);
+  border-color: var(--shade-900);
+  background-color: var(--shade-50);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .district-card-content {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.15rem;
 }
 
 .district-card-title {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--color-black);
+  font-size: 1.05rem;
+  font-weight: 750;
+  color: var(--shade-950);
 }
 
 .district-card-malayalam {
-  font-size: 0.775rem;
-  color: var(--color-gray-600);
+  font-size: 0.8rem;
+  color: var(--shade-600);
 }
 
 .district-card-count {
   font-size: 0.8rem;
-  color: var(--color-gray-700);
+  color: var(--shade-700);
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  margin-top: 0.25rem;
+  margin-top: 0.3rem;
+  font-weight: 600;
 }
 
 .district-card-arrow {
-  color: var(--color-black);
+  color: var(--shade-900);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  border: 1px solid var(--border-light);
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border-default);
   border-radius: 50%;
-  background-color: var(--color-gray-50);
-  transition: background-color 0.15s ease;
+  background-color: var(--shade-50);
+  transition: all 0.15s ease;
 }
 
 .district-card:hover .district-card-arrow {
-  background-color: var(--color-black);
-  color: var(--color-white);
-  border-color: var(--color-black);
+  background-color: var(--shade-900);
+  color: var(--white);
+  border-color: var(--shade-900);
 }
 
 /* --------------------------------------------------------------------------
-   Map View Component
+   Interactive Map View Component
    -------------------------------------------------------------------------- */
 .map-view-container {
-  border: 1px solid var(--border-medium);
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-sm);
   overflow: hidden;
-  background-color: var(--color-white);
+  background-color: var(--white);
+  box-shadow: var(--shadow-xs);
 }
 
 .map-view-header {
-  padding: 0.85rem 1.15rem;
-  background-color: var(--color-gray-100);
-  border-bottom: 1px solid var(--border-medium);
+  padding: 0.85rem 1.25rem;
+  background-color: var(--shade-50);
+  border-bottom: 1px solid var(--border-default);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -562,13 +547,14 @@
   font-family: var(--font-mono);
   font-size: 0.8rem;
   font-weight: 600;
-  background-color: var(--color-white);
-  border: 1px solid var(--border-medium);
-  padding: 0.3rem 0.65rem;
+  background-color: var(--white);
+  border: 1px solid var(--border-default);
+  padding: 0.35rem 0.75rem;
   border-radius: var(--radius-xs);
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.45rem;
+  color: var(--shade-900);
 }
 
 .map-header-actions {
@@ -580,58 +566,58 @@
 .map-leaflet-box {
   width: 100%;
   height: 420px;
-  background-color: var(--color-gray-150);
+  background-color: var(--shade-150);
   position: relative;
   z-index: 10;
 }
 
 .map-view-footer {
-  padding: 0.75rem 1.15rem;
-  background-color: var(--color-white);
-  border-top: 1px solid var(--border-light);
+  padding: 0.75rem 1.25rem;
+  background-color: var(--shade-50);
+  border-top: 1px solid var(--border-subtle);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
   font-size: 0.8rem;
-  color: var(--color-gray-600);
+  color: var(--shade-600);
 }
 
 .map-verified-tag {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.4rem;
   font-weight: 600;
-  color: var(--color-black);
+  color: var(--shade-950);
 }
 
 /* Custom black & white leaflet map elements */
 .leaflet-popup-content-wrapper {
-  background: var(--color-white) !important;
-  color: var(--color-black) !important;
-  border: 2px solid var(--color-black) !important;
+  background: var(--white) !important;
+  color: var(--shade-950) !important;
+  border: 2px solid var(--shade-900) !important;
   border-radius: var(--radius-xs) !important;
   box-shadow: var(--shadow-md) !important;
 }
 
 .leaflet-popup-tip {
-  background: var(--color-black) !important;
+  background: var(--shade-900) !important;
 }
 
 /* --------------------------------------------------------------------------
    Footer
    -------------------------------------------------------------------------- */
 .site-footer {
-  background-color: var(--color-black);
-  color: var(--color-white);
-  border-top: 4px solid var(--color-black);
+  background-color: var(--shade-950);
+  color: var(--white);
+  border-top: 4px solid var(--shade-900);
   margin-top: auto;
   font-size: 0.875rem;
 }
 
 .footer-main {
-  padding: 3.5rem 0 2rem;
+  padding: 3.5rem 0 2.25rem;
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1.2fr;
   gap: 2.5rem;
@@ -640,30 +626,30 @@
 .footer-brand {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.15rem;
 }
 
 .footer-brand-title {
-  color: var(--color-white);
+  color: var(--white);
   font-size: 1.15rem;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .footer-brand-desc {
-  color: var(--color-gray-400);
+  color: var(--shade-400);
   font-size: 0.85rem;
   line-height: 1.6;
 }
 
 .footer-column-title {
-  color: var(--color-white);
-  font-size: 0.85rem;
+  color: var(--white);
+  font-size: 0.825rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 1.1rem;
-  padding-bottom: 0.4rem;
-  border-bottom: 1px solid var(--color-gray-800);
+  margin-bottom: 1.15rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid var(--shade-800);
 }
 
 .footer-links {
@@ -674,38 +660,38 @@
 }
 
 .footer-links a {
-  color: var(--color-gray-300);
+  color: var(--shade-300);
   text-decoration: none;
   font-size: 0.85rem;
   transition: color 0.15s ease;
 }
 
 .footer-links a:hover {
-  color: var(--color-white);
+  color: var(--white);
   text-decoration: underline;
 }
 
 .footer-disclaimer-box {
-  background-color: var(--color-gray-900);
-  border: 1px solid var(--color-gray-800);
+  background-color: var(--shade-900);
+  border: 1px solid var(--shade-800);
   padding: 1rem;
   border-radius: var(--radius-xs);
-  color: var(--color-gray-300);
+  color: var(--shade-300);
   font-size: 0.8rem;
   line-height: 1.5;
 }
 
 .footer-disclaimer-box strong {
-  color: var(--color-white);
+  color: var(--white);
   display: block;
   margin-bottom: 0.35rem;
 }
 
 .footer-bottom {
-  border-top: 1px solid var(--color-gray-800);
+  border-top: 1px solid var(--shade-800);
   padding: 1.25rem 0;
   font-size: 0.775rem;
-  color: var(--color-gray-400);
+  color: var(--shade-400);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -719,11 +705,11 @@
 }
 
 .footer-bottom-links a {
-  color: var(--color-gray-400);
+  color: var(--shade-400);
 }
 
 .footer-bottom-links a:hover {
-  color: var(--color-white);
+  color: var(--white);
 }
 
 /* Responsive Rules for Components */
@@ -741,6 +727,14 @@
 
   .mobile-menu-btn {
     display: flex;
+  }
+
+  .brand-logo-img {
+    height: 44px;
+  }
+
+  .brand-title {
+    font-size: 1.05rem;
   }
 
   .footer-main {

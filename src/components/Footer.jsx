@@ -8,22 +8,36 @@ export default function Footer() {
     <footer className="site-footer">
       <div className="container">
         <div className="footer-main">
-          {/* Column 1: Brand & About Website */}
+          {/* Column 1: Brand & Official Emblem */}
           <div className="footer-brand">
-            <div className="footer-brand-title">Kerala Panchayat Directory</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.9rem' }}>
+              <img
+                src="/kerala-gov-logo.png"
+                alt="Government of Kerala State Emblem"
+                style={{ height: '52px', width: 'auto', filter: 'brightness(0) invert(1)', opacity: 0.95 }}
+              />
+              <div>
+                <div className="footer-brand-title">Kerala Panchayat Directory</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--shade-400)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                  Government of Kerala · LSGD
+                </div>
+              </div>
+            </div>
+
             <p className="footer-brand-desc">
-              A comprehensive citizen information platform cataloguing Grama Panchayats across the 14 districts of Kerala. Dedicated to fostering grassroots transparency, civic awareness, and local governance accessibility.
+              Public information repository providing administrative, territorial, and civic service details for Grama Panchayats across the 14 revenue districts of Kerala.
             </p>
+
             <div className="footer-disclaimer-box">
               <strong>
-                <ShieldAlert size={14} style={{ display: 'inline', verticalAlign: 'text-bottom', marginRight: '4px' }} />
-                Public Notice & Disclaimer
+                <ShieldAlert size={14} style={{ display: 'inline', verticalAlign: 'text-bottom', marginRight: '5px' }} />
+                Public Information Notice & Disclaimer
               </strong>
               This website is an informational directory and is not an official Government of Kerala website unless formally authorized. Please verify official details with the relevant government authority.
             </div>
           </div>
 
-          {/* Column 2: Quick Links */}
+          {/* Column 2: Directory Navigation */}
           <div>
             <h4 className="footer-column-title">Directory Navigation</h4>
             <ul className="footer-links">
@@ -37,7 +51,7 @@ export default function Footer() {
                 <Link to="/about">About Kerala Government</Link>
               </li>
               <li>
-                <Link to="/contact">Contact & Helpdesk</Link>
+                <Link to="/contact">Helpdesk & Contact</Link>
               </li>
               <li>
                 <a
@@ -55,7 +69,7 @@ export default function Footer() {
           {/* Column 3: District Directory */}
           <div>
             <h4 className="footer-column-title">District Directory</h4>
-            <ul className="footer-links" style={{ fontSize: '0.8rem' }}>
+            <ul className="footer-links" style={{ fontSize: '0.825rem' }}>
               {DISTRICTS.slice(0, 7).map((d) => (
                 <li key={d.id}>
                   <Link to={`/panchayats?district=${encodeURIComponent(d.name)}`}>
@@ -71,9 +85,9 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: Public Administration */}
+          {/* Column 4: Public Administration Portals */}
           <div>
-            <h4 className="footer-column-title">LSGD Services</h4>
+            <h4 className="footer-column-title">LSGD Digital Services</h4>
             <ul className="footer-links">
               <li>
                 <a href="https://k-smart.lsgkerala.gov.in" target="_blank" rel="noopener noreferrer">
@@ -96,7 +110,7 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <Link to="/contact">Citizen Support</Link>
+                <Link to="/contact">Citizen Support & RTI</Link>
               </li>
             </ul>
           </div>
@@ -105,7 +119,7 @@ export default function Footer() {
         {/* Footer Bottom Bar */}
         <div className="footer-bottom">
           <div>
-            © {new Date().getFullYear()} Kerala Grama Panchayat Directory. Designed in accordance with Indian State LSGD standards.
+            © {new Date().getFullYear()} Government of Kerala LSGD Informational Directory. Designed in accordance with National Portal of India standards.
           </div>
           <div className="footer-bottom-links">
             <Link to="/about#privacy">Privacy Policy</Link>
