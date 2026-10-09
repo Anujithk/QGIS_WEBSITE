@@ -39,7 +39,7 @@ export default function Contact() {
       </section>
 
       <section className="container section-padding">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem' }}>
+        <div className="contact-layout-grid">
           {/* Official Helplines */}
           <div>
             <h2 style={{ fontSize: '1.5rem', marginBottom: '1.25rem' }}>Government Helplines & Offices</h2>

@@ -68,7 +68,7 @@ export default function AboutKerala() {
             Kerala spans 14 administrative revenue districts, categorized into South, Central, and North Kerala regions:
           </p>
 
-          <div style={{ marginTop: '1rem', border: '1px solid var(--border-medium)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
+          <div className="admin-table-wrapper" style={{ marginTop: '1rem', border: '1px solid var(--grey-300)', borderRadius: 'var(--radius-sm)' }}>
             <table className="admin-table">
               <thead>
                 <tr>

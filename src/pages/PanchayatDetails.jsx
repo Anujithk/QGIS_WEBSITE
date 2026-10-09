@@ -137,46 +137,48 @@ export default function PanchayatDetails() {
               <h3>Administrative Information & Jurisdiction</h3>
             </div>
             <div className="details-section-body" style={{ padding: 0 }}>
-              <table className="admin-table">
-                <tbody>
-                  <tr>
-                    <th>Grama Panchayat</th>
-                    <td>{panchayat.name} ({panchayat.malayalamName || ''})</td>
-                  </tr>
-                  <tr>
-                    <th>Intermediate Tier</th>
-                    <td>{panchayat.blockPanchayat}</td>
-                  </tr>
-                  <tr>
-                    <th>Apex District Tier</th>
-                    <td>{panchayat.districtPanchayat}</td>
-                  </tr>
-                  <tr>
-                    <th>Revenue District</th>
-                    <td>{panchayat.district}</td>
-                  </tr>
-                  {panchayat.assemblyConstituency && (
+              <div className="admin-table-wrapper">
+                <table className="admin-table">
+                  <tbody>
                     <tr>
-                      <th>Legislative Assembly Constituency (LAC)</th>
-                      <td>{panchayat.assemblyConstituency}</td>
+                      <th>Grama Panchayat</th>
+                      <td>{panchayat.name} ({panchayat.malayalamName || ''})</td>
                     </tr>
-                  )}
-                  {panchayat.parliamentaryConstituency && (
                     <tr>
-                      <th>Parliamentary Constituency (Lok Sabha)</th>
-                      <td>{panchayat.parliamentaryConstituency}</td>
+                      <th>Intermediate Tier</th>
+                      <td>{panchayat.blockPanchayat}</td>
                     </tr>
-                  )}
-                  <tr>
-                    <th>Electoral Wards Count</th>
-                    <td>{panchayat.wardCount} Electoral Wards</td>
-                  </tr>
-                  <tr>
-                    <th>State Administrative Cadre</th>
-                    <td>Local Self Government Department (LSGD), Government of Kerala</td>
-                  </tr>
-                </tbody>
-              </table>
+                    <tr>
+                      <th>Apex District Tier</th>
+                      <td>{panchayat.districtPanchayat}</td>
+                    </tr>
+                    <tr>
+                      <th>Revenue District</th>
+                      <td>{panchayat.district}</td>
+                    </tr>
+                    {panchayat.assemblyConstituency && (
+                      <tr>
+                        <th>Legislative Assembly Constituency (LAC)</th>
+                        <td>{panchayat.assemblyConstituency}</td>
+                      </tr>
+                    )}
+                    {panchayat.parliamentaryConstituency && (
+                      <tr>
+                        <th>Parliamentary Constituency (Lok Sabha)</th>
+                        <td>{panchayat.parliamentaryConstituency}</td>
+                      </tr>
+                    )}
+                    <tr>
+                      <th>Electoral Wards Count</th>
+                      <td>{panchayat.wardCount} Electoral Wards</td>
+                    </tr>
+                    <tr>
+                      <th>State Administrative Cadre</th>
+                      <td>Local Self Government Department (LSGD), Government of Kerala</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
 
