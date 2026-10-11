@@ -57,20 +57,20 @@ export default function PanchayatDetails() {
   const tierDirectoryPath = isCorporation
     ? '/panchayats?tab=corporation'
     : isMunicipality
-    ? '/panchayats?tab=municipality'
-    : '/panchayats';
+      ? '/panchayats?tab=municipality'
+      : '/panchayats';
 
   const tierDirectoryLabel = isCorporation
     ? 'Municipal Corporations'
     : isMunicipality
-    ? 'Municipalities'
-    : 'Panchayats';
+      ? 'Municipalities'
+      : 'Panchayats';
 
   const districtDirectoryPath = isCorporation
     ? `/panchayats?tab=corporation&district=${encodeURIComponent(localBody.district)}`
     : isMunicipality
-    ? `/panchayats?tab=municipality&district=${encodeURIComponent(localBody.district)}`
-    : `/panchayats?district=${encodeURIComponent(localBody.district)}`;
+      ? `/panchayats?tab=municipality&district=${encodeURIComponent(localBody.district)}`
+      : `/panchayats?district=${encodeURIComponent(localBody.district)}`;
 
   // Find related local bodies in the same district for fast navigation
   const relatedBodies = useMemo(() => {
@@ -89,14 +89,14 @@ export default function PanchayatDetails() {
     // For Grama Panchayat: same block first, then same district
     const sameBlock = PANCHAYATS.filter(
       (p) => p.district.toLowerCase() === localBody.district.toLowerCase() &&
-             p.blockPanchayat === localBody.blockPanchayat &&
-             p.id !== localBody.id
+        p.blockPanchayat === localBody.blockPanchayat &&
+        p.id !== localBody.id
     ).slice(0, 4);
     if (sameBlock.length >= 4) return sameBlock;
     const sameDistrict = PANCHAYATS.filter(
       (p) => p.district.toLowerCase() === localBody.district.toLowerCase() &&
-             p.id !== localBody.id &&
-             !sameBlock.some(b => b.id === p.id)
+        p.id !== localBody.id &&
+        !sameBlock.some(b => b.id === p.id)
     ).slice(0, 4 - sameBlock.length);
     return [...sameBlock, ...sameDistrict];
   }, [localBody, isUrban]);
@@ -153,8 +153,8 @@ export default function PanchayatDetails() {
                   {isCorporation
                     ? 'Directions to Corporation'
                     : isMunicipality
-                    ? 'Directions to Municipality'
-                    : 'Navigate to Office'}
+                      ? 'Directions to Municipality'
+                      : 'Navigate to Office'}
                 </span>
               </a>
             )}
@@ -212,8 +212,8 @@ export default function PanchayatDetails() {
                 {isCorporation
                   ? 'Municipal Corporation Office Location & Map'
                   : isMunicipality
-                  ? 'Municipal Office Location & Map'
-                  : 'Panchayat Office Location & Map'}
+                    ? 'Municipal Office Location & Map'
+                    : 'Panchayat Office Location & Map'}
               </h3>
             </div>
             <div className="details-section-body" style={{ padding: '1rem' }}>
@@ -388,8 +388,8 @@ export default function PanchayatDetails() {
                 {isCorporation
                   ? 'Municipal Corporation Frontline Public Services'
                   : isMunicipality
-                  ? 'Municipal Frontline Public Services'
-                  : 'Panchayat Frontline Public Services'}
+                    ? 'Municipal Frontline Public Services'
+                    : 'Panchayat Frontline Public Services'}
               </h3>
             </div>
             <div className="details-section-body">
@@ -512,15 +512,15 @@ export default function PanchayatDetails() {
                 {isCorporation
                   ? 'Corporation Office & Contacts'
                   : isMunicipality
-                  ? 'Municipal Office & Contacts'
-                  : 'Office Contact & Details'}
+                    ? 'Municipal Office & Contacts'
+                    : 'Office Contact & Details'}
               </h3>
               <span style={{ fontSize: '0.775rem', color: 'var(--color-gray-600)' }}>
                 {isCorporation
                   ? 'Official Municipal Corporation Secretariat'
                   : isMunicipality
-                  ? 'Official Municipal Council Secretariat'
-                  : 'Official Grama Panchayat Secretariat'}
+                    ? 'Official Municipal Council Secretariat'
+                    : 'Official Grama Panchayat Secretariat'}
               </span>
             </div>
 
@@ -588,8 +588,8 @@ export default function PanchayatDetails() {
                       {isCorporation
                         ? 'Official Corporation Portal'
                         : isMunicipality
-                        ? 'Official Municipal Portal'
-                        : 'Official LSGD Portal'}
+                          ? 'Official Municipal Portal'
+                          : 'Official LSGD Portal'}
                     </span>
                     <a
                       href={localBody.officialWebsite || localBody.website}
@@ -607,8 +607,8 @@ export default function PanchayatDetails() {
                         {isCorporation
                           ? 'Visit Corporation Website'
                           : isMunicipality
-                          ? 'Visit Municipal Website'
-                          : 'Visit Panchayat Portal'}
+                            ? 'Visit Municipal Website'
+                            : 'Visit Panchayat Portal'}
                       </span>
                       <ExternalLink size={13} />
                     </a>
@@ -656,8 +656,8 @@ export default function PanchayatDetails() {
             {isCorporation
               ? 'Citizens may submit RTI applications to the designated State Public Information Officer (SPIO / Corporation Secretary / Revenue Officer) at this Municipal Corporation office.'
               : isMunicipality
-              ? 'Citizens may submit RTI applications to the designated State Public Information Officer (SPIO / Municipal Secretary) at this Municipal Council office.'
-              : 'Citizens may file RTI queries with the designated State Public Information Officer (SPIO / Junior Superintendent) at this Grama Panchayat office.'}
+                ? 'Citizens may submit RTI applications to the designated State Public Information Officer (SPIO / Municipal Secretary) at this Municipal Council office.'
+                : 'Citizens may file RTI queries with the designated State Public Information Officer (SPIO / Junior Superintendent) at this Grama Panchayat office.'}
           </div>
         </div>
       </section>

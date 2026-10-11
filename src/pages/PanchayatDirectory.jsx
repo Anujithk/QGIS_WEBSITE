@@ -408,12 +408,12 @@ export default function PanchayatDirectory() {
                     activeTab === 'grama'
                       ? 'Search by Panchayat, PIN, block, or ward...'
                       : activeTab === 'municipality'
-                      ? 'Search by Municipality, PIN, grade, or district...'
-                      : activeTab === 'corporation'
-                      ? 'Search by Corporation city, district, or HQ...'
-                      : activeTab === 'block'
-                      ? 'Search by Block name, headquarters, or district...'
-                      : 'Search by District Panchayat or headquarters...'
+                        ? 'Search by Municipality, PIN, grade, or district...'
+                        : activeTab === 'corporation'
+                          ? 'Search by Corporation city, district, or HQ...'
+                          : activeTab === 'block'
+                            ? 'Search by Block name, headquarters, or district...'
+                            : 'Search by District Panchayat or headquarters...'
                   }
                   value={searchTerm}
                   onChange={handleSearchChange}

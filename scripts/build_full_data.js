@@ -385,7 +385,7 @@ for (const item of rawList) {
   globalIdx++;
   const districtName = item.district;
   const distInfo = DISTRICT_INFO[districtName];
-  
+
   // Check if we already have a rich record
   const match = existingMap.get(item.malName) || existingMap.get(item.malName.replace(/ /g, ''));
   if (match) {
