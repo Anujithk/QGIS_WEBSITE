@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Landmark, Shield, Layers, Users, BookOpen, ExternalLink, ArrowRight } from 'lucide-react';
-import { DISTRICTS, TOTAL_KERALA_PANCHAYATS, TOTAL_BLOCK_PANCHAYATS } from '../data/districts';
+import { DISTRICTS, TOTAL_KERALA_PANCHAYATS, TOTAL_BLOCK_PANCHAYATS, DISTRICT_PANCHAYATS } from '../data/districts';
 
 export default function AboutKerala() {
   return (
@@ -68,13 +68,14 @@ export default function AboutKerala() {
             Kerala spans 14 administrative revenue districts, categorized into South, Central, and North Kerala regions:
           </p>
 
-          <div className="admin-table-wrapper" style={{ marginTop: '1rem', border: '1px solid var(--grey-300)', borderRadius: 'var(--radius-sm)' }}>
-            <table className="admin-table">
+          <div className="admin-table-wrapper" style={{ marginTop: '1rem', border: '1px solid var(--grey-300)', borderRadius: 'var(--radius-sm)', overflowX: 'auto' }}>
+            <table className="admin-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr>
                   <th>District</th>
                   <th>Headquarters</th>
-                  <th>Grama Panchayats</th>
+                  <th style={{ textAlign: 'right' }}>Grama Panchayats</th>
+                  <th style={{ textAlign: 'right' }}>Block Panchayats</th>
                   <th>Region</th>
                 </tr>
               </thead>
@@ -87,8 +88,58 @@ export default function AboutKerala() {
                       </Link>
                     </td>
                     <td>{d.headquarters}</td>
-                    <td>{d.panchayatCount}</td>
+                    <td style={{ textAlign: 'right', fontWeight: 700 }}>{d.panchayatCount}</td>
+                    <td style={{ textAlign: 'right', fontWeight: 700 }}>{d.blockCount}</td>
                     <td>{d.region}</td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr style={{ backgroundColor: 'var(--grey-100)', fontWeight: 800, borderTop: '2px solid var(--grey-400)' }}>
+                  <td>Total (14 Districts)</td>
+                  <td>State-wide LSGD</td>
+                  <td style={{ textAlign: 'right', fontWeight: 800 }}>{TOTAL_KERALA_PANCHAYATS}</td>
+                  <td style={{ textAlign: 'right', fontWeight: 800 }}>{TOTAL_BLOCK_PANCHAYATS}</td>
+                  <td>Kerala</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+          <h3 style={{ marginTop: '2.5rem', marginBottom: '0.75rem', fontSize: '1.25rem', fontWeight: 750 }}>
+            Apex Tier: The 14 District Panchayats (Jilla Panchayats)
+          </h3>
+          <p>
+            The apex district level comprises 14 statutory District Panchayats responsible for coordinating district-level developmental planning, apex engineering works, and rural welfare administration:
+          </p>
+
+          <div className="admin-table-wrapper" style={{ marginTop: '1rem', border: '1px solid var(--grey-300)', borderRadius: 'var(--radius-sm)', overflowX: 'auto' }}>
+            <table className="admin-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr>
+                  <th>District Panchayat</th>
+                  <th>Headquarters</th>
+                  <th style={{ textAlign: 'right' }}>Divisions</th>
+                  <th style={{ textAlign: 'right' }}>Block Panchayats</th>
+                  <th style={{ textAlign: 'right' }}>Grama Panchayats</th>
+                  <th>Official Contact</th>
+                </tr>
+              </thead>
+              <tbody>
+                {DISTRICT_PANCHAYATS.map((dp) => (
+                  <tr key={dp.id}>
+                    <td>
+                      <strong>{dp.name}</strong>
+                      <div style={{ fontSize: '0.8rem', color: 'var(--grey-600)' }}>{dp.malayalamName}</div>
+                    </td>
+                    <td>{dp.headquarters}</td>
+                    <td style={{ textAlign: 'right', fontWeight: 700 }}>{dp.divisionCount}</td>
+                    <td style={{ textAlign: 'right' }}>{dp.blockPanchayatsCount}</td>
+                    <td style={{ textAlign: 'right' }}>{dp.gramaPanchayatsCount}</td>
+                    <td style={{ fontSize: '0.825rem' }}>
+                      <div>{dp.phone}</div>
+                      <div style={{ color: 'var(--grey-600)' }}>{dp.email}</div>
+                    </td>
                   </tr>
                 ))}
               </tbody>

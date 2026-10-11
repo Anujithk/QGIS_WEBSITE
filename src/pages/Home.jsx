@@ -99,7 +99,7 @@ export default function Home() {
             <div>
               <div className="section-tag-row">
                 <span className="section-kicker">LSGD DIRECTORY</span>
-                <span className="sample-notice-pill">Sample Records</span>
+                <span className="sample-notice-pill">State-wide Registry · 941 Panchayats</span>
               </div>
               <h2 className="section-title">
                 <Building2 size={24} />
@@ -123,7 +123,7 @@ export default function Home() {
 
           <div className="sample-data-footer-note">
             <span>
-              <strong>Public Notice:</strong> Demonstration data displayed for public directory layout illustration. Real office coordinates and administrative boundaries verified where indicated.
+              <strong>State-wide Administrative Registry:</strong> Comprehensive registry across all 14 District Panchayats, 152 Block Panchayats, and 941 Grama Panchayats of Kerala with official headquarters, PIN codes, wards, and GIS coordinates.
             </span>
           </div>
         </div>

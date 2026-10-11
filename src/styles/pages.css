@@ -361,6 +361,211 @@
 }
 
 /* --------------------------------------------------------------------------
+   Tier Navigation Tabs & Pagination
+   -------------------------------------------------------------------------- */
+.tier-tabs-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  border-bottom: 2px solid var(--grey-200);
+  padding-bottom: 0.5rem;
+}
+
+.tier-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.15rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  font-family: inherit;
+  color: var(--grey-700);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tier-tab-btn:hover {
+  color: var(--grey-950);
+  background-color: var(--grey-100);
+}
+
+.tier-tab-btn.active {
+  color: var(--white);
+  background-color: var(--grey-950);
+  border-color: var(--grey-950);
+}
+
+.tier-tab-badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.725rem;
+  font-weight: 800;
+  border-radius: var(--radius-xs);
+  background-color: var(--grey-200);
+  color: var(--grey-900);
+}
+
+.tier-tab-btn.active .tier-tab-badge {
+  background-color: var(--grey-800);
+  color: var(--white);
+}
+
+/* Pagination Bar */
+.pagination-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--grey-200);
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.pagination-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  height: 38px;
+  padding: 0 0.65rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--grey-800);
+  background-color: var(--white);
+  border: 1px solid var(--grey-300);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background-color: var(--grey-100);
+  border-color: var(--grey-600);
+  color: var(--grey-950);
+}
+
+.pagination-btn.active {
+  background-color: var(--grey-950);
+  border-color: var(--grey-950);
+  color: var(--white);
+  font-weight: 800;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  border-color: var(--grey-200);
+}
+
+.pagination-ellipsis {
+  padding: 0 0.4rem;
+  color: var(--grey-500);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.pagination-page-size {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--grey-700);
+}
+
+/* Administrative Intermediate Cards */
+.admin-tier-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.admin-tier-card {
+  background-color: var(--white);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: 1.25rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-xs);
+}
+
+.admin-tier-card:hover {
+  border-color: var(--grey-700);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-2px);
+}
+
+.admin-tier-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.725rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.55rem;
+  background-color: var(--grey-100);
+  color: var(--grey-800);
+  border-radius: var(--radius-xs);
+  width: fit-content;
+}
+
+.admin-tier-title {
+  font-size: 1.15rem;
+  font-weight: 750;
+  color: var(--grey-950);
+  margin: 0.2rem 0 0.15rem 0;
+}
+
+.admin-tier-malayalam {
+  font-size: 0.9rem;
+  color: var(--grey-600);
+  margin-bottom: 0.65rem;
+}
+
+.admin-tier-meta-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.825rem;
+  color: var(--grey-700);
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--grey-150);
+}
+
+.admin-tier-meta-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-tier-meta-label {
+  color: var(--grey-600);
+}
+
+.admin-tier-meta-val {
+  font-weight: 650;
+  color: var(--grey-900);
+}
+
+/* --------------------------------------------------------------------------
    Panchayat Details Page
    -------------------------------------------------------------------------- */
 .details-page-header {

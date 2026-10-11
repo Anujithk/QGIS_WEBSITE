@@ -15,7 +15,7 @@ export default function DistrictCard({ district }) {
         <h4 className="district-card-title">{district.name}</h4>
         <div className="district-card-malayalam">{district.malayalamName}</div>
         <div className="district-card-count">
-          <span>{district.panchayatCount} Grama Panchayats</span>
+          <span>{district.panchayatCount} Grama Panchayats · {district.blockCount} Blocks</span>
         </div>
       </div>
       <div className="district-card-arrow">

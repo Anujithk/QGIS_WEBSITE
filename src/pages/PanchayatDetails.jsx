@@ -181,15 +181,36 @@ export default function PanchayatDetails() {
                     </tr>
                     <tr>
                       <th>Intermediate Tier</th>
-                      <td>{panchayat.blockPanchayat}</td>
+                      <td>
+                        <Link
+                          to={`/panchayats?district=${encodeURIComponent(panchayat.district)}&block=${encodeURIComponent(panchayat.blockPanchayat.replace(' Block Panchayat', ''))}`}
+                          style={{ textDecoration: 'underline', fontWeight: 600 }}
+                        >
+                          {panchayat.blockPanchayat}
+                        </Link>
+                      </td>
                     </tr>
                     <tr>
                       <th>Apex District Tier</th>
-                      <td>{panchayat.districtPanchayat}</td>
+                      <td>
+                        <Link
+                          to={`/panchayats?tab=district&district=${encodeURIComponent(panchayat.district)}`}
+                          style={{ textDecoration: 'underline', fontWeight: 600 }}
+                        >
+                          {panchayat.districtPanchayat}
+                        </Link>
+                      </td>
                     </tr>
                     <tr>
                       <th>Revenue District</th>
-                      <td>{panchayat.district}</td>
+                      <td>
+                        <Link
+                          to={`/panchayats?district=${encodeURIComponent(panchayat.district)}`}
+                          style={{ textDecoration: 'underline', fontWeight: 600 }}
+                        >
+                          {panchayat.district} District
+                        </Link>
+                      </td>
                     </tr>
                     {panchayat.assemblyConstituency && (
                       <tr>
