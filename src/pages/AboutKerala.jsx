@@ -76,6 +76,8 @@ export default function AboutKerala() {
                   <th>Headquarters</th>
                   <th style={{ textAlign: 'right' }}>Grama Panchayats</th>
                   <th style={{ textAlign: 'right' }}>Block Panchayats</th>
+                  <th style={{ textAlign: 'right' }}>Municipalities</th>
+                  <th style={{ textAlign: 'right' }}>Corporations</th>
                   <th>Region</th>
                 </tr>
               </thead>
@@ -90,6 +92,20 @@ export default function AboutKerala() {
                     <td>{d.headquarters}</td>
                     <td style={{ textAlign: 'right', fontWeight: 700 }}>{d.panchayatCount}</td>
                     <td style={{ textAlign: 'right', fontWeight: 700 }}>{d.blockCount}</td>
+                    <td style={{ textAlign: 'right', fontWeight: 700 }}>
+                      <Link to={`/panchayats?tab=municipality&district=${encodeURIComponent(d.name)}`} style={{ textDecoration: 'underline' }}>
+                        {d.municipalityCount}
+                      </Link>
+                    </td>
+                    <td style={{ textAlign: 'right', fontWeight: 700 }}>
+                      {d.corporationCount > 0 ? (
+                        <Link to={`/panchayats?tab=corporation&district=${encodeURIComponent(d.name)}`} style={{ textDecoration: 'underline', fontWeight: 800 }}>
+                          {d.corporationCount}
+                        </Link>
+                      ) : (
+                        <span style={{ color: 'var(--grey-400)' }}>—</span>
+                      )}
+                    </td>
                     <td>{d.region}</td>
                   </tr>
                 ))}
@@ -100,17 +116,19 @@ export default function AboutKerala() {
                   <td>State-wide LSGD</td>
                   <td style={{ textAlign: 'right', fontWeight: 800 }}>{TOTAL_KERALA_PANCHAYATS}</td>
                   <td style={{ textAlign: 'right', fontWeight: 800 }}>{TOTAL_BLOCK_PANCHAYATS}</td>
-                  <td>Kerala</td>
+                  <td style={{ textAlign: 'right', fontWeight: 800 }}>87</td>
+                  <td style={{ textAlign: 'right', fontWeight: 800 }}>6</td>
+                  <td>1,200 Total LSGIs</td>
                 </tr>
               </tfoot>
             </table>
           </div>
 
           <h3 style={{ marginTop: '2.5rem', marginBottom: '0.75rem', fontSize: '1.25rem', fontWeight: 750 }}>
-            Apex Tier: The 14 District Panchayats (Jilla Panchayats)
+            Apex Rural Tier: The 14 District Panchayats (Jilla Panchayats)
           </h3>
           <p>
-            The apex district level comprises 14 statutory District Panchayats responsible for coordinating district-level developmental planning, apex engineering works, and rural welfare administration:
+            The apex rural district tier comprises 14 statutory District Panchayats coordinating rural infrastructure, higher secondary education, and district hospitals:
           </p>
 
           <div className="admin-table-wrapper" style={{ marginTop: '1rem', border: '1px solid var(--grey-300)', borderRadius: 'var(--radius-sm)', overflowX: 'auto' }}>
@@ -140,6 +158,55 @@ export default function AboutKerala() {
                       <div>{dp.phone}</div>
                       <div style={{ color: 'var(--grey-600)' }}>{dp.email}</div>
                     </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style={{ marginTop: '2.5rem', marginBottom: '0.75rem', fontSize: '1.25rem', fontWeight: 750 }}>
+            Urban Local Governance: The 6 Municipal Corporations & 87 Municipalities
+          </h3>
+          <p>
+            Under the <strong>Kerala Municipality Act, 1994</strong> (enacted as per the 74th Constitutional Amendment), urban administration is overseen by the Department of Urban Affairs. Kerala comprises <strong>6 Municipal Corporations</strong> (metropolitan cities) and <strong>87 Municipalities</strong> (classified into Grade 1, Grade 2, and Grade 3).
+          </p>
+
+          {/* Corporations Table */}
+          <div className="admin-table-wrapper" style={{ marginTop: '1rem', border: '1px solid var(--grey-300)', borderRadius: 'var(--radius-sm)', overflowX: 'auto' }}>
+            <table className="admin-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr>
+                  <th>Municipal Corporation</th>
+                  <th>District</th>
+                  <th style={{ textAlign: 'right' }}>Est. Year</th>
+                  <th style={{ textAlign: 'right' }}>Divisions</th>
+                  <th style={{ textAlign: 'right' }}>Population</th>
+                  <th style={{ textAlign: 'right' }}>Area (km²)</th>
+                  <th>Headquarters</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { id: 'thiruvananthapuram-corp', name: 'Thiruvananthapuram Corporation', mal: 'തിരുവനന്തപുരം', dist: 'Thiruvananthapuram', yr: 1940, w: 101, pop: '9,55,494', area: '214.86', hq: 'Vikas Bhavan, Thiruvananthapuram' },
+                  { id: 'kozhikode-corp', name: 'Kozhikode Municipal Corporation', mal: 'കോഴിക്കോട്', dist: 'Kozhikode', yr: 1962, w: 76, pop: '6,09,214', area: '118.31', hq: 'Beach Road, Kozhikode' },
+                  { id: 'kochi-corp', name: 'Kochi Municipal Corporation', mal: 'കൊച്ചി', dist: 'Ernakulam', yr: 1967, w: 76, pop: '6,77,381', area: '94.88', hq: 'Marine Drive, Kochi' },
+                  { id: 'kollam-corp', name: 'Kollam Municipal Corporation', mal: 'കൊല്ലം', dist: 'Kollam', yr: 2000, w: 56, pop: '3,88,288', area: '73.03', hq: 'Cantonment, Kollam' },
+                  { id: 'thrissur-corp', name: 'Thrissur Municipal Corporation', mal: 'തൃശ്ശൂർ', dist: 'Thrissur', yr: 2000, w: 56, pop: '3,15,596', area: '101.42', hq: 'M.O. Road, Thrissur' },
+                  { id: 'kannur-corp', name: 'Kannur Municipal Corporation', mal: 'കണ്ണൂർ', dist: 'Kannur', yr: 2015, w: 56, pop: '2,32,486', area: '78.35', hq: 'Thalap, Kannur' },
+                ].map((c) => (
+                  <tr key={c.id}>
+                    <td>
+                      <Link to={`/panchayats/${c.id}`} style={{ textDecoration: 'underline', fontWeight: 700 }}>
+                        {c.name}
+                      </Link>
+                      <div style={{ fontSize: '0.8rem', color: 'var(--grey-600)' }}>{c.mal}</div>
+                    </td>
+                    <td>{c.dist}</td>
+                    <td style={{ textAlign: 'right' }}>{c.yr}</td>
+                    <td style={{ textAlign: 'right', fontWeight: 700 }}>{c.w}</td>
+                    <td style={{ textAlign: 'right' }}>{c.pop}</td>
+                    <td style={{ textAlign: 'right' }}>{c.area}</td>
+                    <td style={{ fontSize: '0.825rem' }}>{c.hq}</td>
                   </tr>
                 ))}
               </tbody>

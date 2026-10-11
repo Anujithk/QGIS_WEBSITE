@@ -46,6 +46,9 @@ export default function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/panchayats" element={<PanchayatDirectory />} />
         <Route path="/panchayats/:id" element={<PanchayatDetails />} />
+        <Route path="/corporations/:id" element={<PanchayatDetails />} />
+        <Route path="/municipalities/:id" element={<PanchayatDetails />} />
+        <Route path="/local-body/:id" element={<PanchayatDetails />} />
         <Route path="/about" element={<AboutKerala />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="*" element={<NotFound />} />

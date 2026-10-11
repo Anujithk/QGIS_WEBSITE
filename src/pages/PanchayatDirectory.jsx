@@ -5,6 +5,7 @@ import {
   Filter,
   RotateCcw,
   Building2,
+  Building,
   Layers,
   ChevronLeft,
   ChevronRight,
@@ -14,29 +15,44 @@ import {
   Phone,
   Mail,
   MapPin,
-  CheckCircle2
+  ExternalLink,
+  CheckCircle2,
+  Landmark,
+  ShieldCheck
 } from 'lucide-react';
 import PanchayatCard from '../components/PanchayatCard';
 import { PANCHAYATS } from '../data/panchayats';
-import { DISTRICTS, DISTRICT_PANCHAYATS, TOTAL_KERALA_PANCHAYATS, TOTAL_BLOCK_PANCHAYATS, TOTAL_DISTRICT_PANCHAYATS } from '../data/districts';
+import {
+  DISTRICTS,
+  DISTRICT_PANCHAYATS,
+  TOTAL_KERALA_PANCHAYATS,
+  TOTAL_BLOCK_PANCHAYATS,
+  TOTAL_DISTRICT_PANCHAYATS,
+  TOTAL_MUNICIPALITIES,
+  TOTAL_CORPORATIONS,
+  TOTAL_URBAN_BODIES
+} from '../data/districts';
 import { BLOCK_PANCHAYATS } from '../data/blocks';
+import { CORPORATIONS, MUNICIPALITIES } from '../data/urban';
 
 export default function PanchayatDirectory() {
   const [searchParams, setSearchParams] = useSearchParams();
   const resultsTopRef = useRef(null);
 
   // URL query params
-  const activeTabParam = searchParams.get('tab') || 'grama'; // 'grama', 'block', 'district'
+  const activeTabParam = searchParams.get('tab') || 'grama'; // 'grama', 'block', 'district', 'municipality', 'corporation'
   const queryParam = searchParams.get('search') || '';
   const districtParam = searchParams.get('district') || 'all';
   const blockParam = searchParams.get('block') || 'all';
+  const gradeParam = searchParams.get('grade') || 'all';
   const pageParam = parseInt(searchParams.get('page') || '1', 10);
 
   const [activeTab, setActiveTab] = useState(activeTabParam);
   const [searchTerm, setSearchTerm] = useState(queryParam);
   const [selectedDistrict, setSelectedDistrict] = useState(districtParam);
   const [selectedBlock, setSelectedBlock] = useState(blockParam);
-  const [sortOrder, setSortOrder] = useState('asc'); // 'asc', 'desc', 'district', 'wards'
+  const [selectedGrade, setSelectedGrade] = useState(gradeParam);
+  const [sortOrder, setSortOrder] = useState('asc'); // 'asc', 'desc', 'district', 'wards', 'pop', 'area'
   const [currentPage, setCurrentPage] = useState(isNaN(pageParam) || pageParam < 1 ? 1 : pageParam);
   const [pageSize, setPageSize] = useState(24);
 
@@ -46,6 +62,7 @@ export default function PanchayatDirectory() {
     setSearchTerm(searchParams.get('search') || '');
     setSelectedDistrict(searchParams.get('district') || 'all');
     setSelectedBlock(searchParams.get('block') || 'all');
+    setSelectedGrade(searchParams.get('grade') || 'all');
     const p = parseInt(searchParams.get('page') || '1', 10);
     setCurrentPage(isNaN(p) || p < 1 ? 1 : p);
   }, [searchParams]);
@@ -91,10 +108,18 @@ export default function PanchayatDirectory() {
     updateQueryParams({ block: val, page: 1 });
   };
 
+  const handleGradeChange = (e) => {
+    const val = e.target.value;
+    setSelectedGrade(val);
+    setCurrentPage(1);
+    updateQueryParams({ grade: val, page: 1 });
+  };
+
   const handleResetFilters = () => {
     setSearchTerm('');
     setSelectedDistrict('all');
     setSelectedBlock('all');
+    setSelectedGrade('all');
     setSortOrder('asc');
     setCurrentPage(1);
     setSearchParams(activeTab !== 'grama' ? { tab: activeTab } : {});
@@ -110,7 +135,7 @@ export default function PanchayatDirectory() {
     );
   }, [selectedDistrict]);
 
-  // Filter & sort Grama Panchayats
+  // Filter & sort Grama Panchayats (941)
   const filteredGramaPanchayats = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
 
@@ -144,7 +169,7 @@ export default function PanchayatDirectory() {
     });
   }, [searchTerm, selectedDistrict, selectedBlock, sortOrder]);
 
-  // Filter Block Panchayats
+  // Filter Block Panchayats (152)
   const filteredBlockPanchayats = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
 
@@ -164,7 +189,7 @@ export default function PanchayatDirectory() {
     }).sort((a, b) => a.district.localeCompare(b.district) || a.name.localeCompare(b.name));
   }, [searchTerm, selectedDistrict]);
 
-  // Filter District Panchayats
+  // Filter District Panchayats (14)
   const filteredDistrictPanchayats = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
 
@@ -184,16 +209,87 @@ export default function PanchayatDirectory() {
     });
   }, [searchTerm, selectedDistrict]);
 
-  // Grama pagination calculations
+  // Filter Municipalities (87)
+  const filteredMunicipalities = useMemo(() => {
+    const term = searchTerm.trim().toLowerCase();
+
+    return MUNICIPALITIES.filter((m) => {
+      const matchesDistrict =
+        selectedDistrict === 'all' ||
+        m.district.toLowerCase() === selectedDistrict.toLowerCase();
+
+      const matchesGrade =
+        selectedGrade === 'all' || m.grade === selectedGrade;
+
+      const matchesSearch =
+        !term ||
+        m.name.toLowerCase().includes(term) ||
+        m.shortName.toLowerCase().includes(term) ||
+        (m.malayalamName && m.malayalamName.includes(term)) ||
+        m.district.toLowerCase().includes(term) ||
+        m.headquarters.toLowerCase().includes(term) ||
+        m.pinCode.includes(term) ||
+        m.grade.toLowerCase().includes(term);
+
+      return matchesDistrict && matchesGrade && matchesSearch;
+    }).sort((a, b) => {
+      if (sortOrder === 'desc') return b.name.localeCompare(a.name);
+      if (sortOrder === 'district') {
+        return a.district.localeCompare(b.district) || a.name.localeCompare(b.name);
+      }
+      if (sortOrder === 'wards') return b.wardCount - a.wardCount;
+      if (sortOrder === 'pop') {
+        const popA = a.populationRaw || parseInt(String(a.population).replace(/,/g, ''), 10) || 0;
+        const popB = b.populationRaw || parseInt(String(b.population).replace(/,/g, ''), 10) || 0;
+        return popB - popA;
+      }
+      if (sortOrder === 'area') return b.areaSqKm - a.areaSqKm;
+      return a.name.localeCompare(b.name);
+    });
+  }, [searchTerm, selectedDistrict, selectedGrade, sortOrder]);
+
+  // Filter Corporations (6)
+  const filteredCorporations = useMemo(() => {
+    const term = searchTerm.trim().toLowerCase();
+
+    return CORPORATIONS.filter((c) => {
+      const matchesDistrict =
+        selectedDistrict === 'all' ||
+        c.district.toLowerCase() === selectedDistrict.toLowerCase();
+
+      const matchesSearch =
+        !term ||
+        c.name.toLowerCase().includes(term) ||
+        c.shortName.toLowerCase().includes(term) ||
+        (c.malayalamName && c.malayalamName.includes(term)) ||
+        c.district.toLowerCase().includes(term) ||
+        c.headquarters.toLowerCase().includes(term);
+
+      return matchesDistrict && matchesSearch;
+    }).sort((a, b) => b.population - a.population);
+  }, [searchTerm, selectedDistrict]);
+
+  // Pagination for Grama Panchayats
   const totalGramaItems = filteredGramaPanchayats.length;
-  const totalPages = pageSize === 'all' ? 1 : Math.ceil(totalGramaItems / pageSize) || 1;
-  const validCurrentPage = Math.min(Math.max(currentPage, 1), totalPages);
+  const totalGramaPages = pageSize === 'all' ? 1 : Math.ceil(totalGramaItems / pageSize) || 1;
+  const validGramaPage = Math.min(Math.max(currentPage, 1), totalGramaPages);
 
   const paginatedGramaPanchayats = useMemo(() => {
     if (pageSize === 'all') return filteredGramaPanchayats;
-    const start = (validCurrentPage - 1) * pageSize;
+    const start = (validGramaPage - 1) * pageSize;
     return filteredGramaPanchayats.slice(start, start + pageSize);
-  }, [filteredGramaPanchayats, validCurrentPage, pageSize]);
+  }, [filteredGramaPanchayats, validGramaPage, pageSize]);
+
+  // Pagination for Municipalities
+  const totalMunItems = filteredMunicipalities.length;
+  const totalMunPages = pageSize === 'all' ? 1 : Math.ceil(totalMunItems / pageSize) || 1;
+  const validMunPage = Math.min(Math.max(currentPage, 1), totalMunPages);
+
+  const paginatedMunicipalities = useMemo(() => {
+    if (pageSize === 'all') return filteredMunicipalities;
+    const start = (validMunPage - 1) * pageSize;
+    return filteredMunicipalities.slice(start, start + pageSize);
+  }, [filteredMunicipalities, validMunPage, pageSize]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -204,24 +300,27 @@ export default function PanchayatDirectory() {
   };
 
   const hasActiveFilters =
-    searchTerm !== '' || selectedDistrict !== 'all' || selectedBlock !== 'all';
+    searchTerm !== '' ||
+    selectedDistrict !== 'all' ||
+    selectedBlock !== 'all' ||
+    selectedGrade !== 'all';
 
-  // Generate pagination page numbers with smart ellipsis
-  const getPageNumbers = () => {
+  // Smart ellipsis page numbers
+  const getPageNumbers = (totalP, currentP) => {
     const pages = [];
-    if (totalPages <= 7) {
-      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    if (totalP <= 7) {
+      for (let i = 1; i <= totalP; i++) pages.push(i);
     } else {
       pages.push(1);
-      if (validCurrentPage > 3) pages.push('ellipsis-1');
+      if (currentP > 3) pages.push('ellipsis-1');
 
-      const start = Math.max(2, validCurrentPage - 1);
-      const end = Math.min(totalPages - 1, validCurrentPage + 1);
+      const start = Math.max(2, currentP - 1);
+      const end = Math.min(totalP - 1, currentP + 1);
 
       for (let i = start; i <= end; i++) pages.push(i);
 
-      if (validCurrentPage < totalPages - 2) pages.push('ellipsis-2');
-      pages.push(totalPages);
+      if (currentP < totalP - 2) pages.push('ellipsis-2');
+      pages.push(totalP);
     }
     return pages;
   };
@@ -238,14 +337,14 @@ export default function PanchayatDirectory() {
             </span>
           </div>
           <h1 style={{ fontSize: '2.25rem', fontWeight: 800, marginBottom: '0.5rem' }}>
-            Kerala Panchayat Directory
+            Kerala Local Bodies Directory
           </h1>
-          <p style={{ maxWidth: '780px', color: 'var(--color-gray-700)', margin: 0 }}>
-            Complete statutory directory of the three-tier Panchayati Raj system in Kerala: <strong>{TOTAL_KERALA_PANCHAYATS} Grama Panchayats</strong>, <strong>{TOTAL_BLOCK_PANCHAYATS} Block Panchayats</strong>, and <strong>{TOTAL_DISTRICT_PANCHAYATS} District Panchayats</strong> across all 14 districts.
+          <p style={{ maxWidth: '820px', color: 'var(--color-gray-700)', margin: 0 }}>
+            Complete statutory directory of all rural and urban local self-government institutions in Kerala: <strong>{TOTAL_KERALA_PANCHAYATS} Grama Panchayats</strong>, <strong>{TOTAL_BLOCK_PANCHAYATS} Block Panchayats</strong>, <strong>{TOTAL_DISTRICT_PANCHAYATS} District Panchayats</strong>, <strong>{TOTAL_MUNICIPALITIES} Municipalities</strong>, and <strong>{TOTAL_CORPORATIONS} Municipal Corporations</strong>.
           </p>
 
-          {/* Three Tier Navigation Tabs */}
-          <div className="tier-tabs-bar" role="tablist" aria-label="Panchayati Raj Tiers">
+          {/* Five Administrative Tier Tabs */}
+          <div className="tier-tabs-bar" role="tablist" aria-label="Administrative Tiers">
             <button
               type="button"
               role="tab"
@@ -255,6 +354,26 @@ export default function PanchayatDirectory() {
             >
               <span>Grama Panchayats</span>
               <span className="tier-tab-badge">{TOTAL_KERALA_PANCHAYATS}</span>
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === 'municipality'}
+              className={`tier-tab-btn ${activeTab === 'municipality' ? 'active' : ''}`}
+              onClick={() => handleTabChange('municipality')}
+            >
+              <span>Municipalities</span>
+              <span className="tier-tab-badge">{TOTAL_MUNICIPALITIES}</span>
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === 'corporation'}
+              className={`tier-tab-btn ${activeTab === 'corporation' ? 'active' : ''}`}
+              onClick={() => handleTabChange('corporation')}
+            >
+              <span>Corporations</span>
+              <span className="tier-tab-badge">{TOTAL_CORPORATIONS}</span>
             </button>
             <button
               type="button"
@@ -288,6 +407,10 @@ export default function PanchayatDirectory() {
                   placeholder={
                     activeTab === 'grama'
                       ? 'Search by Panchayat, PIN, block, or ward...'
+                      : activeTab === 'municipality'
+                      ? 'Search by Municipality, PIN, grade, or district...'
+                      : activeTab === 'corporation'
+                      ? 'Search by Corporation city, district, or HQ...'
                       : activeTab === 'block'
                       ? 'Search by Block name, headquarters, or district...'
                       : 'Search by District Panchayat or headquarters...'
@@ -327,12 +450,12 @@ export default function PanchayatDirectory() {
                 <option value="all">All 14 Districts</option>
                 {DISTRICTS.map((d) => (
                   <option key={d.id} value={d.name}>
-                    {d.name} ({d.panchayatCount} Panchayats)
+                    {d.name} ({d.panchayatCount} GP · {d.municipalityCount} Mun{d.corporationCount ? ` · ${d.corporationCount} Corp` : ''})
                   </option>
                 ))}
               </select>
 
-              {/* Block dropdown (only relevant for Grama tab when district is selected) */}
+              {/* Block dropdown (only for Grama tab) */}
               {activeTab === 'grama' && selectedDistrict !== 'all' && (
                 <select
                   value={selectedBlock}
@@ -349,8 +472,23 @@ export default function PanchayatDirectory() {
                 </select>
               )}
 
-              {/* Sorting dropdown (for Grama tab) */}
-              {activeTab === 'grama' && (
+              {/* Municipality Grade filter */}
+              {activeTab === 'municipality' && (
+                <select
+                  value={selectedGrade}
+                  onChange={handleGradeChange}
+                  className="filter-select"
+                  aria-label="Filter by Grade"
+                >
+                  <option value="all">All Municipality Grades</option>
+                  <option value="Grade 1">Grade 1 Municipalities</option>
+                  <option value="Grade 2">Grade 2 Municipalities</option>
+                  <option value="Grade 3">Grade 3 Municipalities</option>
+                </select>
+              )}
+
+              {/* Sorting dropdown */}
+              {(activeTab === 'grama' || activeTab === 'municipality') && (
                 <select
                   value={sortOrder}
                   onChange={(e) => setSortOrder(e.target.value)}
@@ -361,6 +499,12 @@ export default function PanchayatDirectory() {
                   <option value="desc">Alphabetical: Z to A</option>
                   <option value="district">Group by District</option>
                   <option value="wards">Most Electoral Wards</option>
+                  {activeTab === 'municipality' && (
+                    <>
+                      <option value="pop">Highest Population</option>
+                      <option value="area">Largest Area (km²)</option>
+                    </>
+                  )}
                 </select>
               )}
             </div>
@@ -383,7 +527,7 @@ export default function PanchayatDirectory() {
 
       {/* Directory Listings */}
       <section className="container" style={{ paddingBottom: '4rem', paddingTop: '1rem' }} ref={resultsTopRef}>
-        
+
         {/* ==================== TAB 1: GRAMA PANCHAYATS ==================== */}
         {activeTab === 'grama' && (
           <div>
@@ -408,16 +552,15 @@ export default function PanchayatDirectory() {
                 )}
                 {totalGramaItems > 0 && pageSize !== 'all' && (
                   <span style={{ color: 'var(--grey-600)', marginLeft: '0.5rem' }}>
-                    (Page {validCurrentPage} of {totalPages})
+                    (Page {validGramaPage} of {totalGramaPages})
                   </span>
                 )}
               </div>
               <span className="sample-notice-pill">
-                State-wide Registry · {TOTAL_KERALA_PANCHAYATS} Grama Panchayats
+                Village Tier · {TOTAL_KERALA_PANCHAYATS} Grama Panchayats
               </span>
             </div>
 
-            {/* Results Grid or Empty State */}
             {paginatedGramaPanchayats.length > 0 ? (
               <>
                 <div className="panchayats-grid">
@@ -448,12 +591,12 @@ export default function PanchayatDirectory() {
                     </select>
                   </div>
 
-                  {pageSize !== 'all' && totalPages > 1 && (
+                  {pageSize !== 'all' && totalGramaPages > 1 && (
                     <div className="pagination-controls" aria-label="Pagination">
                       <button
                         type="button"
                         onClick={() => handlePageChange(1)}
-                        disabled={validCurrentPage === 1}
+                        disabled={validGramaPage === 1}
                         className="pagination-btn"
                         title="First Page"
                         aria-label="First Page"
@@ -462,8 +605,8 @@ export default function PanchayatDirectory() {
                       </button>
                       <button
                         type="button"
-                        onClick={() => handlePageChange(validCurrentPage - 1)}
-                        disabled={validCurrentPage === 1}
+                        onClick={() => handlePageChange(validGramaPage - 1)}
+                        disabled={validGramaPage === 1}
                         className="pagination-btn"
                         title="Previous Page"
                         aria-label="Previous Page"
@@ -471,7 +614,7 @@ export default function PanchayatDirectory() {
                         <ChevronLeft size={16} />
                       </button>
 
-                      {getPageNumbers().map((item, idx) => {
+                      {getPageNumbers(totalGramaPages, validGramaPage).map((item, idx) => {
                         if (typeof item === 'string') {
                           return (
                             <span key={`ellipsis-${idx}`} className="pagination-ellipsis">
@@ -484,9 +627,9 @@ export default function PanchayatDirectory() {
                             key={item}
                             type="button"
                             onClick={() => handlePageChange(item)}
-                            className={`pagination-btn ${item === validCurrentPage ? 'active' : ''}`}
+                            className={`pagination-btn ${item === validGramaPage ? 'active' : ''}`}
                             aria-label={`Page ${item}`}
-                            aria-current={item === validCurrentPage ? 'page' : undefined}
+                            aria-current={item === validGramaPage ? 'page' : undefined}
                           >
                             {item}
                           </button>
@@ -495,8 +638,8 @@ export default function PanchayatDirectory() {
 
                       <button
                         type="button"
-                        onClick={() => handlePageChange(validCurrentPage + 1)}
-                        disabled={validCurrentPage === totalPages}
+                        onClick={() => handlePageChange(validGramaPage + 1)}
+                        disabled={validGramaPage === totalGramaPages}
                         className="pagination-btn"
                         title="Next Page"
                         aria-label="Next Page"
@@ -505,8 +648,8 @@ export default function PanchayatDirectory() {
                       </button>
                       <button
                         type="button"
-                        onClick={() => handlePageChange(totalPages)}
-                        disabled={validCurrentPage === totalPages}
+                        onClick={() => handlePageChange(totalGramaPages)}
+                        disabled={validGramaPage === totalGramaPages}
                         className="pagination-btn"
                         title="Last Page"
                         aria-label="Last Page"
@@ -537,7 +680,363 @@ export default function PanchayatDirectory() {
           </div>
         )}
 
-        {/* ==================== TAB 2: BLOCK PANCHAYATS ==================== */}
+        {/* ==================== TAB 2: MUNICIPALITIES ==================== */}
+        {activeTab === 'municipality' && (
+          <div>
+            <div className="filter-results-status">
+              <div>
+                Showing <span className="results-count-bold">{totalMunItems}</span> of {TOTAL_MUNICIPALITIES} Municipalities
+                {selectedDistrict !== 'all' && (
+                  <span>
+                    {' '}in <strong>{selectedDistrict}</strong> district
+                  </span>
+                )}
+                {selectedGrade !== 'all' && (
+                  <span>
+                    {' '}(<strong>{selectedGrade}</strong>)
+                  </span>
+                )}
+                {searchTerm && (
+                  <span>
+                    {' '}matching "<strong>{searchTerm}</strong>"
+                  </span>
+                )}
+                {totalMunItems > 0 && pageSize !== 'all' && (
+                  <span style={{ color: 'var(--grey-600)', marginLeft: '0.5rem' }}>
+                    (Page {validMunPage} of {totalMunPages})
+                  </span>
+                )}
+              </div>
+              <span className="sample-notice-pill">
+                Urban Local Bodies · {TOTAL_MUNICIPALITIES} Municipalities
+              </span>
+            </div>
+
+            {paginatedMunicipalities.length > 0 ? (
+              <>
+                <div className="admin-tier-grid">
+                  {paginatedMunicipalities.map((mun) => (
+                    <div key={mun.id} className="admin-tier-card">
+                      <div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
+                          <span className="admin-tier-badge">{mun.district}</span>
+                          <span className="badge badge-dark" style={{ fontSize: '0.7rem' }}>{mun.grade}</span>
+                        </div>
+                        <h3 className="admin-tier-title">
+                          <Link to={`/panchayats/${mun.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                            {mun.name}
+                          </Link>
+                        </h3>
+                        <div className="admin-tier-malayalam">{mun.malayalamName}</div>
+
+                        <div className="admin-tier-meta-list">
+                          <div className="admin-tier-meta-item">
+                            <span className="admin-tier-meta-label">Headquarters:</span>
+                            <span className="admin-tier-meta-val">{mun.headquarters} (PIN: {mun.pinCode})</span>
+                          </div>
+                          <div className="admin-tier-meta-item">
+                            <span className="admin-tier-meta-label">Electoral Wards:</span>
+                            <span className="admin-tier-meta-val">{mun.wardCount} Wards</span>
+                          </div>
+                          <div className="admin-tier-meta-item">
+                            <span className="admin-tier-meta-label">Population (Census):</span>
+                            <span className="admin-tier-meta-val">{mun.population.toLocaleString('en-IN')}</span>
+                          </div>
+                          <div className="admin-tier-meta-item">
+                            <span className="admin-tier-meta-label">Geographic Area:</span>
+                            <span className="admin-tier-meta-val">{mun.areaSqKm} km²</span>
+                          </div>
+                          <div className="admin-tier-meta-item">
+                            <span className="admin-tier-meta-label">Formation Year:</span>
+                            <span className="admin-tier-meta-val">{mun.formationYear || 'Historic'}</span>
+                          </div>
+                          <div className="admin-tier-meta-item">
+                            <span className="admin-tier-meta-label">Contact Phone:</span>
+                            <span className="admin-tier-meta-val">{mun.phone}</span>
+                          </div>
+                          <div className="admin-tier-meta-item">
+                            <span className="admin-tier-meta-label">Email:</span>
+                            <span className="admin-tier-meta-val" style={{ fontSize: '0.725rem' }}>{mun.email}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.75rem' }}>
+                        <Link
+                          to={`/panchayats/${mun.id}`}
+                          className="btn btn-primary btn-sm"
+                          style={{ flex: 1, justifyContent: 'center' }}
+                        >
+                          <span>View Details</span>
+                          <ArrowRight size={13} />
+                        </Link>
+                        <a
+                          href={`https://www.google.com/maps/dir/?api=1&destination=${mun.coordinates.lat},${mun.coordinates.lng}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn btn-outline-dark btn-sm"
+                          style={{ justifyContent: 'center', padding: '0.4rem 0.65rem' }}
+                          title="Directions to Municipal Office"
+                          aria-label="Directions to Municipal Office"
+                        >
+                          <MapPin size={13} />
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Pagination Controls */}
+                <div className="pagination-wrapper">
+                  <div className="pagination-page-size">
+                    <span>Showing per page:</span>
+                    <select
+                      value={pageSize}
+                      onChange={(e) => {
+                        const val = e.target.value === 'all' ? 'all' : parseInt(e.target.value, 10);
+                        setPageSize(val);
+                        setCurrentPage(1);
+                      }}
+                      className="filter-select"
+                      style={{ padding: '0.35rem 0.65rem', minHeight: '34px', fontSize: '0.825rem' }}
+                      aria-label="Items per page"
+                    >
+                      <option value={24}>24 Municipalities</option>
+                      <option value={48}>48 Municipalities</option>
+                      <option value="all">Show All ({totalMunItems})</option>
+                    </select>
+                  </div>
+
+                  {pageSize !== 'all' && totalMunPages > 1 && (
+                    <div className="pagination-controls" aria-label="Pagination">
+                      <button
+                        type="button"
+                        onClick={() => handlePageChange(1)}
+                        disabled={validMunPage === 1}
+                        className="pagination-btn"
+                        title="First Page"
+                      >
+                        <ChevronsLeft size={16} />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handlePageChange(validMunPage - 1)}
+                        disabled={validMunPage === 1}
+                        className="pagination-btn"
+                        title="Previous Page"
+                      >
+                        <ChevronLeft size={16} />
+                      </button>
+
+                      {getPageNumbers(totalMunPages, validMunPage).map((item, idx) => {
+                        if (typeof item === 'string') {
+                          return (
+                            <span key={`ellipsis-${idx}`} className="pagination-ellipsis">
+                              ...
+                            </span>
+                          );
+                        }
+                        return (
+                          <button
+                            key={item}
+                            type="button"
+                            onClick={() => handlePageChange(item)}
+                            className={`pagination-btn ${item === validMunPage ? 'active' : ''}`}
+                          >
+                            {item}
+                          </button>
+                        );
+                      })}
+
+                      <button
+                        type="button"
+                        onClick={() => handlePageChange(validMunPage + 1)}
+                        disabled={validMunPage === totalMunPages}
+                        className="pagination-btn"
+                        title="Next Page"
+                      >
+                        <ChevronRight size={16} />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handlePageChange(totalMunPages)}
+                        disabled={validMunPage === totalMunPages}
+                        className="pagination-btn"
+                        title="Last Page"
+                      >
+                        <ChevronsRight size={16} />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (
+              <div className="empty-results-box">
+                <Building size={48} color="var(--color-gray-400)" />
+                <h2 className="empty-results-title">No Municipalities found.</h2>
+                <p className="empty-results-desc">
+                  Try clearing your search keyword, selecting a different district, or resetting grade filters.
+                </p>
+                <button
+                  type="button"
+                  onClick={handleResetFilters}
+                  className="btn btn-primary btn-sm"
+                >
+                  <RotateCcw size={14} />
+                  <span>Reset Filters</span>
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ==================== TAB 3: CORPORATIONS ==================== */}
+        {activeTab === 'corporation' && (
+          <div>
+            <div className="filter-results-status">
+              <div>
+                Showing <span className="results-count-bold">{filteredCorporations.length}</span> of {TOTAL_CORPORATIONS} Municipal Corporations
+                {selectedDistrict !== 'all' && (
+                  <span>
+                    {' '}in <strong>{selectedDistrict}</strong> district
+                  </span>
+                )}
+                {searchTerm && (
+                  <span>
+                    {' '}matching "<strong>{searchTerm}</strong>"
+                  </span>
+                )}
+              </div>
+              <span className="sample-notice-pill">
+                Metropolitan Tier · {TOTAL_CORPORATIONS} Municipal Corporations
+              </span>
+            </div>
+
+            {filteredCorporations.length > 0 ? (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '1.5rem', marginTop: '1.5rem' }}>
+                {filteredCorporations.map((corp) => (
+                  <div
+                    key={corp.id}
+                    className="admin-tier-card"
+                    style={{ borderTop: '4px solid var(--grey-950)' }}
+                  >
+                    <div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
+                        <span className="badge badge-dark">Municipal Corporation</span>
+                        <span className="admin-tier-badge">{corp.district} District</span>
+                      </div>
+                      <h3 style={{ fontSize: '1.35rem', fontWeight: 800, margin: '0.35rem 0 0.15rem 0', color: 'var(--grey-950)' }}>
+                        <Link to={`/panchayats/${corp.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                          {corp.name}
+                        </Link>
+                      </h3>
+                      <div className="admin-tier-malayalam" style={{ fontSize: '1rem', fontWeight: 600 }}>
+                        {corp.malayalamName}
+                      </div>
+
+                      <p style={{ fontSize: '0.875rem', color: 'var(--grey-700)', margin: '0.75rem 0', lineHeight: 1.5 }}>
+                        {corp.description}
+                      </p>
+
+                      <div className="admin-tier-meta-list">
+                        <div className="admin-tier-meta-item">
+                          <span className="admin-tier-meta-label">Headquarters:</span>
+                          <span className="admin-tier-meta-val">{corp.headquarters} (PIN: {corp.pinCode})</span>
+                        </div>
+                        <div className="admin-tier-meta-item">
+                          <span className="admin-tier-meta-label">Electoral Wards:</span>
+                          <span className="admin-tier-meta-val" style={{ fontWeight: 800 }}>{corp.wardCount} Divisions</span>
+                        </div>
+                        <div className="admin-tier-meta-item">
+                          <span className="admin-tier-meta-label">Population (Census):</span>
+                          <span className="admin-tier-meta-val">{corp.population.toLocaleString('en-IN')}</span>
+                        </div>
+                        <div className="admin-tier-meta-item">
+                          <span className="admin-tier-meta-label">Geographic Area:</span>
+                          <span className="admin-tier-meta-val">{corp.areaSqKm} km² ({corp.densityPerSqKm}/km²)</span>
+                        </div>
+                        <div className="admin-tier-meta-item">
+                          <span className="admin-tier-meta-label">Year of Establishment:</span>
+                          <span className="admin-tier-meta-val">{corp.formationYear}</span>
+                        </div>
+                        <div className="admin-tier-meta-item">
+                          <span className="admin-tier-meta-label">Office Phone:</span>
+                          <span className="admin-tier-meta-val">{corp.phone}</span>
+                        </div>
+                        <div className="admin-tier-meta-item">
+                          <span className="admin-tier-meta-label">Official Email:</span>
+                          <span className="admin-tier-meta-val" style={{ fontSize: '0.725rem' }}>{corp.email}</span>
+                        </div>
+                      </div>
+
+                      <div style={{ marginTop: '0.85rem', paddingTop: '0.65rem', borderTop: '1px solid var(--grey-150)' }}>
+                        <span style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--grey-600)', letterSpacing: '0.04em' }}>
+                          Key Urban Portals & Missions
+                        </span>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem', marginTop: '0.35rem' }}>
+                          {corp.services.slice(0, 4).map((s, idx) => (
+                            <span key={idx} className="badge" style={{ fontSize: '0.7rem', padding: '0.15rem 0.4rem' }}>
+                              {s}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem' }}>
+                      <Link
+                        to={`/panchayats/${corp.id}`}
+                        className="btn btn-primary btn-sm"
+                        style={{ flex: 1, justifyContent: 'center' }}
+                      >
+                        <span>View Details</span>
+                        <ArrowRight size={13} />
+                      </Link>
+                      <a
+                        href={`https://www.google.com/maps/dir/?api=1&destination=${corp.coordinates.lat},${corp.coordinates.lng}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-outline-dark btn-sm"
+                        style={{ justifyContent: 'center', padding: '0.4rem 0.65rem' }}
+                        title="Navigate to Municipal Corporation"
+                      >
+                        <MapPin size={13} />
+                      </a>
+                      {corp.website && (
+                        <a
+                          href={corp.website}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn btn-secondary btn-sm"
+                          style={{ justifyContent: 'center', padding: '0.4rem 0.65rem' }}
+                          title="Official Corporation Portal"
+                        >
+                          <ExternalLink size={13} />
+                          <span>Portal</span>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="empty-results-box">
+                <Building2 size={48} color="var(--color-gray-400)" />
+                <h2 className="empty-results-title">No Municipal Corporations found.</h2>
+                <button
+                  type="button"
+                  onClick={handleResetFilters}
+                  className="btn btn-primary btn-sm"
+                >
+                  <RotateCcw size={14} />
+                  <span>Reset Filters</span>
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ==================== TAB 4: BLOCK PANCHAYATS ==================== */}
         {activeTab === 'block' && (
           <div>
             <div className="filter-results-status">
@@ -555,7 +1054,7 @@ export default function PanchayatDirectory() {
                 )}
               </div>
               <span className="sample-notice-pill">
-                Intermediate Tier · 152 Block Panchayats
+                Intermediate Tier · {TOTAL_BLOCK_PANCHAYATS} Block Panchayats
               </span>
             </div>
 
@@ -629,7 +1128,7 @@ export default function PanchayatDirectory() {
           </div>
         )}
 
-        {/* ==================== TAB 3: DISTRICT PANCHAYATS ==================== */}
+        {/* ==================== TAB 5: DISTRICT PANCHAYATS ==================== */}
         {activeTab === 'district' && (
           <div>
             <div className="filter-results-status">
@@ -637,7 +1136,7 @@ export default function PanchayatDirectory() {
                 Showing <span className="results-count-bold">{filteredDistrictPanchayats.length}</span> of {TOTAL_DISTRICT_PANCHAYATS} District Panchayats (Jilla Panchayats)
               </div>
               <span className="sample-notice-pill">
-                Apex Tier · 14 District Panchayats
+                Apex Rural Tier · {TOTAL_DISTRICT_PANCHAYATS} District Panchayats
               </span>
             </div>
 

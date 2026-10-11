@@ -28,9 +28,12 @@ export default defineConfig({
           if (id.includes('node_modules/lucide-react')) {
             return 'vendor-icons';
           }
-          // Comprehensive dataset isolated for seamless caching
+          // Comprehensive datasets isolated for seamless caching
           if (id.includes('src/data/panchayats.js')) {
             return 'data-panchayats';
+          }
+          if (id.includes('src/data/urban.js')) {
+            return 'data-urban';
           }
         },
       },

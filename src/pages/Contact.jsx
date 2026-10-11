@@ -100,7 +100,25 @@ export default function Contact() {
                       </span>
                     </div>
                     <span style={{ fontSize: '0.85rem', color: 'var(--grey-600)', fontWeight: 600, display: 'block', marginTop: '0.15rem' }}>
-                      Lead Full-Stack Developer & Spatial GIS Architect
+                      Lead Full-Stack Developer
+                    </span>
+                  </div>
+                </div>
+<div className="developer-profile-header">
+                  <div className="developer-avatar-crest">
+                    <span>AK</span>
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem' }}>
+                      <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--grey-950)', margin: 0 }}>
+                        Ashith K
+                      </h3>
+                      <span className="badge badge-dark">
+                        Lead Map Architect · QGIS_WEBSITE
+                      </span>
+                    </div>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--grey-600)', fontWeight: 600, display: 'block', marginTop: '0.15rem' }}>
+                       Spatial GIS Architect
                     </span>
                   </div>
                 </div>
@@ -144,18 +162,18 @@ export default function Contact() {
                     <div style={{ width: '100%' }}>
                       <span className="contact-label">Technical Desk Mail</span>
                       <a
-                        href="mailto:anujith.kerala.dev@gmail.com"
+                        href="mailto:anujithk1422@gmail.com"
                         style={{ fontWeight: 650, color: 'var(--grey-950)', textDecoration: 'underline', display: 'block', wordBreak: 'break-all' }}
                       >
-                        anujith.kerala.dev@gmail.com
+                        anujithk1422@gmail.com
                       </a>
                       <button
                         type="button"
-                        onClick={() => handleCopy('anujith.kerala.dev@gmail.com')}
-                        className={`developer-copy-btn ${copiedEmail === 'anujith.kerala.dev@gmail.com' ? 'copied' : ''}`}
+                        onClick={() => handleCopy('anujithk1422@gmail.com')}
+                        className={`developer-copy-btn ${copiedEmail === 'anujithk1422@gmail.com' ? 'copied' : ''}`}
                         aria-label="Copy tech email"
                       >
-                        {copiedEmail === 'anujith.kerala.dev@gmail.com' ? (
+                        {copiedEmail === 'anujithk1422@gmail.com' ? (
                           <>
                             <CheckCircle size={12} />
                             <span>Copied!</span>
@@ -176,10 +194,10 @@ export default function Contact() {
                     <div>
                       <span className="contact-label">Developer Hotline & WhatsApp</span>
                       <a
-                        href="tel:+919400000000"
+                        href="tel:+919747872025"
                         style={{ fontWeight: 650, color: 'var(--grey-950)', textDecoration: 'underline', display: 'block' }}
                       >
-                        +91 94000 00000
+                        +91 97478 72025
                       </a>
                       <span style={{ fontSize: '0.75rem', color: 'var(--grey-500)', display: 'block', marginTop: '0.2rem' }}>
                         Direct engineering inquiries (Mon–Fri, 9 AM – 6 PM)
@@ -278,39 +296,9 @@ export default function Contact() {
                     </div>
                   </div>
 
-                  <div className="developer-subcard">
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontWeight: 750, fontSize: '0.9rem' }}>
-                      <Laptop size={15} />
-                      <span>Web Performance & 3G/4G Desk</span>
-                    </div>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--grey-600)' }}>
-                      Maintains sub-1000ms load speed targets, offline Service Worker, and low-data mobile performance.
-                    </span>
-                    <div style={{ marginTop: 'auto', paddingTop: '0.5rem', borderTop: '1px solid var(--grey-200)', fontSize: '0.825rem' }}>
-                      <a
-                        href="mailto:web-perf@keralapanchayat.org"
-                        style={{ fontWeight: 650, color: 'var(--grey-950)', textDecoration: 'underline' }}
-                      >
-                        web-perf@keralapanchayat.org
-                      </a>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--grey-600)', marginTop: '0.15rem' }}>
-                        Tel: +91 94460 00000
-                      </div>
-                    </div>
-                  </div>
+                  
                 </div>
-
-                {/* Developer SLA & Standards Bar */}
-                <div className="developer-sla-bar">
-                  <div>
-                    <strong>Developer SLA:</strong> Inquiries replied within 24 business hours
-                  </div>
-                  <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-                    <span className="badge badge-sm badge-dark">Sub-1000ms 3G/4G</span>
-                    <span className="badge badge-sm">Monochrome Compliant</span>
-                    <span className="badge badge-sm">Service Worker Active</span>
-                  </div>
-                </div>
+                
               </div>
             </div>
 

@@ -58,9 +58,15 @@ export default function Header() {
             </NavLink>
             <NavLink
               to="/panchayats"
-              className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+              className={() => `nav-link ${location.pathname === '/panchayats' && (!location.search || location.search.includes('tab=grama') || location.search.includes('tab=block') || location.search.includes('tab=district')) ? 'active' : ''}`}
             >
               Panchayats
+            </NavLink>
+            <NavLink
+              to="/panchayats?tab=municipality"
+              className={() => `nav-link ${location.pathname === '/panchayats' && (location.search.includes('tab=municipality') || location.search.includes('tab=corporation')) ? 'active' : ''}`}
+            >
+              Municipalities & Corporations
             </NavLink>
             <NavLink
               to="/about"
@@ -109,7 +115,23 @@ export default function Header() {
                 to="/panchayats"
                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
               >
-                Grama Panchayats Directory
+                Grama Panchayats (941)
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/panchayats?tab=municipality"
+                className={() => `nav-link ${location.search.includes('tab=municipality') ? 'active' : ''}`}
+              >
+                Municipalities (87)
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/panchayats?tab=corporation"
+                className={() => `nav-link ${location.search.includes('tab=corporation') ? 'active' : ''}`}
+              >
+                Corporations (6)
               </NavLink>
             </li>
             <li>

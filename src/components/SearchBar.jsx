@@ -1,10 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, X, MapPin, ArrowRight } from 'lucide-react';
 import { PANCHAYATS } from '../data/panchayats';
+import { CORPORATIONS, MUNICIPALITIES } from '../data/urban';
+
+// Combined local bodies master for instant search (6 Corporations, 87 Municipalities, 941 Grama Panchayats)
+const ALL_LOCAL_BODIES = [...CORPORATIONS, ...MUNICIPALITIES, ...PANCHAYATS];
 
 export default function SearchBar({
-  placeholder = 'Search by Panchayat name, district, or location...',
+  placeholder = 'Search by Panchayat, Municipality, Corporation, or district...',
   initialQuery = '',
   onSearchSubmit,
   autoFocus = false,
@@ -20,20 +24,23 @@ export default function SearchBar({
     setQuery(initialQuery);
   }, [initialQuery]);
 
-  // Compute suggestions (up to 6)
+  // Compute suggestions (up to 8)
   const trimmed = query.trim().toLowerCase();
-  const suggestions = trimmed.length > 0
-    ? PANCHAYATS.filter((p) => {
-        return (
-          p.name.toLowerCase().includes(trimmed) ||
-          p.district.toLowerCase().includes(trimmed) ||
-          p.locationDescription.toLowerCase().includes(trimmed) ||
-          p.officialAddress.toLowerCase().includes(trimmed) ||
-          p.pinCode.includes(trimmed) ||
-          p.blockPanchayat.toLowerCase().includes(trimmed)
-        );
-      }).slice(0, 6)
-    : [];
+  const suggestions = useMemo(() => {
+    if (!trimmed) return [];
+    return ALL_LOCAL_BODIES.filter((p) => {
+      return (
+        p.name.toLowerCase().includes(trimmed) ||
+        (p.shortName && p.shortName.toLowerCase().includes(trimmed)) ||
+        (p.malayalamName && p.malayalamName.toLowerCase().includes(trimmed)) ||
+        p.district.toLowerCase().includes(trimmed) ||
+        (p.locationDescription && p.locationDescription.toLowerCase().includes(trimmed)) ||
+        (p.officialAddress && p.officialAddress.toLowerCase().includes(trimmed)) ||
+        (p.pinCode && p.pinCode.includes(trimmed)) ||
+        (p.blockPanchayat && p.blockPanchayat.toLowerCase().includes(trimmed))
+      );
+    }).slice(0, 8);
+  }, [trimmed]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -143,7 +150,7 @@ export default function SearchBar({
       {isOpen && suggestions.length > 0 && (
         <div className="search-suggestions-dropdown" role="listbox">
           <div className="suggestions-header">
-            <span>Matching Grama Panchayats</span>
+            <span>Matching Local Bodies</span>
             <span>{suggestions.length} Results</span>
           </div>
           {suggestions.map((p, index) => (
@@ -159,11 +166,19 @@ export default function SearchBar({
               style={{ cursor: 'pointer' }}
             >
               <div className="suggestion-info">
-                <div className="suggestion-name">{p.name}</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+                  <span className="suggestion-name">{p.name}</span>
+                  <span
+                    className={p.type === 'Municipal Corporation' ? 'badge badge-dark' : 'badge'}
+                    style={{ fontSize: '0.65rem', padding: '0.1rem 0.35rem' }}
+                  >
+                    {p.type === 'Municipal Corporation' ? 'Corporation' : p.type === 'Municipality' ? 'Municipality' : 'Panchayat'}
+                  </span>
+                </div>
                 <div className="suggestion-details">
                   <span style={{ color: 'var(--color-gray-600)' }}>{p.malayalamName}</span>
                   <span>•</span>
-                  <span>{p.blockPanchayat}</span>
+                  <span>{p.type === 'Grama Panchayat' ? p.blockPanchayat : `${p.district} District`}</span>
                 </div>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
